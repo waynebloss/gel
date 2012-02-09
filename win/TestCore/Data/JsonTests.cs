@@ -136,5 +136,24 @@ namespace TestCore.Data
 }"
 			);
 		}
+
+		[TestMethod]
+		public void JsonErrors()
+		{
+			var o = Json.Read(null);
+			Assert.IsNull(o);
+
+			var jr = new JsonReader<GelArray, GelObject>(null);
+			o = jr.Read();
+			Assert.IsNull(o);
+			Assert.IsTrue(jr.HasError);
+			Assert.IsTrue(jr.IsErrorEOF);
+			Assert.IsTrue(jr.ErrorIndex == -1);
+
+			jr = new JsonReader<GelArray, GelObject>("{testing: 1, 2, 3}");
+			o = jr.Read();
+			Assert.IsTrue(jr.HasError);
+			Assert.IsTrue(jr.ErrorIndex == 1);
+		}
 	}
 }

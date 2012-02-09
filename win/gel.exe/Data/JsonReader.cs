@@ -47,6 +47,7 @@ namespace Gel.Data
 
 		public JsonReader(string json, int startIndex)
 		{
+			_errorIdx = NonErrorIndex;
 			_idx = startIndex;
 			_json = json;
 			if (!String.IsNullOrEmpty(json))
@@ -300,15 +301,15 @@ namespace Gel.Data
 		/// </remarks>
 		static int SkipWhiteSpace(string json, int startIndex)
 		{
-			do
+			while (startIndex < json.Length)
 			{
 				char c = json[startIndex];
 
 				if (!(c == CR.Space || (c >= CR.Tab && c <= CR.Return) || c == CR.Nbsp))
 					return startIndex;
 
-			} while (++startIndex < json.Length);
-
+				startIndex++;
+			}
 			return startIndex;
 		}
 
@@ -387,9 +388,10 @@ namespace Gel.Data
 				if ((c >= CR.i0 && c <= CR.i9) || c == CR.Dot || c == CR.Minus || c == CR.Plus || c == 'e' || c == 'E')
 				{
 					if (++_idx == _json.Length)
+					{
+						OnError("Unexpected EOF.");
 						break;
-					//throw new ApplicationException("Unexpected EOF");
-
+					}
 					continue;
 				}
 				break;
@@ -415,17 +417,24 @@ namespace Gel.Data
 				case TokenType.ObjectEnd:
 					return newObj;
 
-				default:
+				case TokenType.String:
 					string key = ReadString();
 
 					if (ReadToken() != TokenType.KeyDelim)
-						throw new Exception("Expected colon at index " + _idx);
+					{
+						OnError("Unexpected token.");	// (expected colon.)
+						return newObj;
+					}
 
 					object value = ReadValue();
 
 					newObj.Add(key, value);
 
 					break;
+
+				default:
+					OnError("Unexpected token.");
+					return newObj;
 				}
 			}
 		}
@@ -508,7 +517,8 @@ namespace Gel.Data
 					break;
 				}
 			}
-			throw new Exception("Unexpected EOF");
+			OnError("Unexpected EOF.");
+			return ReadStringEnd(startIdx);
 		}
 
 		string ReadStringEnd(int startIdx)
@@ -552,7 +562,8 @@ namespace Gel.Data
 			case TokenType.ObjectBegin:
 				return ReadObject();
 			}
-			throw new ApplicationException("Unexpected token at index" + _idx);
+			OnError("Unexpected token.");
+			return null;
 		}
 
 		static char UnicodePointToChar(string source, int startIndex, int length)
@@ -572,6 +583,34 @@ namespace Gel.Data
 					n = n * 16 + HexDigits[(c - 'A')];
 			}
 			return (char)n;
+		}
+
+		#endregion
+
+		#region Error Handling
+
+		const int NonErrorIndex = -1;
+
+		int _errorIdx;
+
+		/// <summary>
+		/// Gets the index into the original JSON data string at which point an error occurred.
+		/// </summary>
+		public int ErrorIndex { get { return _errorIdx; } }
+		/// <summary>
+		/// Gets a value indicating if an error occurred.
+		/// </summary>
+		public bool HasError { get { return _json == null || _errorIdx > NonErrorIndex; } }
+		/// <summary>
+		/// Gets a value indicating if an unexpected End Of File (EOF) was reached.
+		/// <para>There are only two types of errors while reading JSON - EOF and Unexpected token.</para>
+		/// </summary>
+		public bool IsErrorEOF { get { return _json == null || _errorIdx == _json.Length; } }
+
+		void OnError(string description)
+		{
+			_errorIdx = _idx;
+			System.Diagnostics.Debug.Print("JsonReader Error at index {0}: {1}", _errorIdx, description);
 		}
 
 		#endregion
