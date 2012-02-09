@@ -10,15 +10,29 @@ using ObjectTypeDefault = Gel.GelObject;
 
 namespace Gel.Data
 {
+	/// <summary>
+	/// Helper for working with JSON data.
+	/// </summary>
 	public static class Json
 	{
 		#region Read
 
+		/// <summary>
+		/// Reads the given JSON data into a <see cref="GelArray"/>, a <see cref="GelObject"/>, a <see cref="String"/> or null value.
+		/// </summary>
+		/// <param name="json"></param>
+		/// <returns></returns>
 		public static object Read(string json)
 		{
 			return Read<ArrayTypeDefault, ObjectTypeDefault>(json);
 		}
-
+		/// <summary>
+		/// Reads the given JSON data into a <see cref="GelArray"/>, a <see cref="GelObject"/>, a <see cref="String"/> or null value.
+		/// </summary>
+		/// <typeparam name="TArray"></typeparam>
+		/// <typeparam name="TObject"></typeparam>
+		/// <param name="json"></param>
+		/// <returns></returns>
 		public static object Read<TArray, TObject>(string json)
 			where TArray : ArrayTypeBase, new()
 			where TObject : ObjectTypeBase, new()
@@ -46,7 +60,7 @@ namespace Gel.Data
 		#region DebugDump
 
 		/// <summary>
-		/// Reads the given json string and dumps the resulting graph to the debugger.
+		/// Reads the given JSON data and dumps the resulting graph to the debugger.
 		/// </summary>
 		/// <param name="json"></param>
 		public static void DebugDump(string json)
