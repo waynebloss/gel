@@ -48,6 +48,9 @@
     <Compile Include="Data\Json.cs" />
     <Compile Include="Data\JsonReader.cs" />
     <Compile Include="GelObject.cs" />
+    <Compile Include="NodeJs\NodeProcess.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
