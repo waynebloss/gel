@@ -1,4 +1,4 @@
-﻿(function (api) {
+﻿(function(api) {
 	delete external;
 
 	// private backing field for the binding method.
@@ -9,15 +9,15 @@
 		this.argv = argvFromApi(0, this.argc);
 	}
 
-	Process.prototype.alert = function (message) {
+	Process.prototype.alert = function(message) {
 		api.alert(message);
 	};
 
-	Process.prototype.binding = function (type) {
+	Process.prototype.binding = function(type) {
 		return _bindings[type];
 	};
 
-	Process.prototype.exit = function () {
+	Process.prototype.exit = function() {
 		api.exit();
 	};
 
