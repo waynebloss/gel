@@ -45,7 +45,11 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\JsEngineTests.cs" />
+    <Compile Include="Core.cs" />
     <Compile Include="Data\JsonTests.cs" />
+    <Compile Include="Eval\EvalTests.cs" />
+    <Compile Include="Preproc\PreprocTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NewTemplate.cs" />
   </ItemGroup>
@@ -54,6 +58,14 @@
       <Project>{765E8D3C-37FD-4C57-A050-A7EE7EB324F8}</Project>
       <Name>Gel.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Preproc\a.js" />
+    <EmbeddedResource Include="Preproc\b.js" />
+    <EmbeddedResource Include="Preproc\c.js" />
+    <EmbeddedResource Include="Preproc\errA.js" />
+    <EmbeddedResource Include="Preproc\errB.js" />
+    <EmbeddedResource Include="Preproc\errC.js" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
