@@ -53,7 +53,7 @@
     <Compile Include="GelObject.cs" />
     <Compile Include="IO\EmbeddedFile.cs" />
     <Compile Include="IO\TempFile.cs" />
-    <Compile Include="NodeJs\NodeProcess.cs">
+    <Compile Include="Scripting\NodeJs\NodeProcess.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ProcessApi.cs" />

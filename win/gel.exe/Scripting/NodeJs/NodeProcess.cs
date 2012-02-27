@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 
-namespace Gel.NodeJs
+namespace Gel.Scripting.NodeJs
 {
 	public class NodeProcess
 	{

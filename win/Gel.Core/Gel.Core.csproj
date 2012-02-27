@@ -66,9 +66,6 @@
     <Compile Include="..\gel.exe\IO\TempFile.cs">
       <Link>IO\TempFile.cs</Link>
     </Compile>
-    <Compile Include="..\gel.exe\NodeJs\NodeProcess.cs">
-      <Link>NodeJs\NodeProcess.cs</Link>
-    </Compile>
     <Compile Include="..\gel.exe\Scripting\ActiveScript\ActiveScriptDispatch.cs">
       <Link>Scripting\ActiveScript\ActiveScriptDispatch.cs</Link>
     </Compile>
@@ -89,6 +86,9 @@
     </Compile>
     <Compile Include="..\gel.exe\Scripting\JScript\JsEngine.cs">
       <Link>Scripting\JScript\JsEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\gel.exe\Scripting\NodeJs\NodeProcess.cs">
+      <Link>Scripting\NodeJs\NodeProcess.cs</Link>
     </Compile>
     <Compile Include="..\gel.exe\Scripting\ScriptContext.cs">
       <Link>Scripting\ScriptContext.cs</Link>
@@ -113,7 +113,7 @@
   <ItemGroup>
     <None Include="Data\Readme.md" />
     <None Include="IO\Readme.md" />
-    <None Include="NodeJs\Readme.md" />
+    <None Include="Scripting\NodeJs\Readme.md" />
     <None Include="Scripting\ActiveScript\Readme.md" />
     <None Include="Scripting\JScript\Readme.md" />
     <None Include="Scripting\Readme.md" />
