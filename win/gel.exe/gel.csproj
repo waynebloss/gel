@@ -50,6 +50,7 @@
     <Compile Include="GelArray.cs" />
     <Compile Include="Data\Json.cs" />
     <Compile Include="Data\JsonReader.cs" />
+    <Compile Include="ConsoleApi.cs" />
     <Compile Include="GelObject.cs" />
     <Compile Include="IO\EmbeddedFile.cs" />
     <Compile Include="IO\TempFile.cs" />
@@ -91,10 +92,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="ref\Readme.md" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gel.js" />
     <EmbeddedResource Include="process.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ref\process.js" />
+    <EmbeddedResource Include="native_module.js" />
+    <EmbeddedResource Include="console.js" />
+    <Content Include="ref\external.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

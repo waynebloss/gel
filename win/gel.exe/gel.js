@@ -1,28 +1,55 @@
-﻿(function (process) {
-
-	//process.alert("Hello, this is Core!");
-
-	var test = [
-		"apply"
-	];
-
-	process.alert(JSON);
-	//process.alert("Object.keys: " + Object.getOwnPropertyNames);
-
-	//	Object.getOwnPropertyNames(process).forEach(function (key) {
-	//		try {
-	//			var desc = Object.getOwnPropertyDescriptor(source, key);
-	//			alert(desc);
-	//			//if (desc.value === source) desc.value = target;
-	//			//Object.defineProperty(target, key, desc);
-	//		} catch (e) {
-	//			// Catch sealed properties errors
-	//		}
-	//	});
-
-	process.exit();
-})(
+﻿/// <reference path="ref/process.js"/>
+/// <reference path="console.js"/>
 
 // #include <Gel.process.js>
+// #include <Gel.console.js>
 
-);
+var global;
+
+(function() {
+	
+	global = this;
+	
+	function startup() {
+		startup.globalVariables();
+		startup.globalTimeouts();
+		
+		process.alert("Hi");
+		console.log("Hi, Hi!");
+	}
+	
+	startup.globalVariables = function() {
+		global.process = process;
+		global.global = global;
+		global.GLOBAL = global;
+		global.root = global;
+// TODO: Restore when possible:
+//		global.Buffer = NativeModule.require('buffer').Buffer;
+	};
+	startup.globalTimeouts = function() {
+
+		global.setTimeout = function() {
+// TODO: Restore when possible:
+//			var t = NativeModule.require('timers');
+//			return t.setTimeout.apply(this, arguments);
+		};
+		global.setInterval = function() {
+// TODO: Restore when possible:
+//			var t = NativeModule.require('timers');
+//			return t.setInterval.apply(this, arguments);
+		};
+		global.clearTimeout = function() {
+// TODO: Restore when possible:
+//			var t = NativeModule.require('timers');
+//			return t.clearTimeout.apply(this, arguments);
+		};
+		global.clearInterval = function() {
+// TODO: Restore when possible:
+//			var t = NativeModule.require('timers');
+//			return t.clearInterval.apply(this, arguments);
+		};
+	};
+	//!#include <Gel.native_module.js>
+	startup();
+
+})();

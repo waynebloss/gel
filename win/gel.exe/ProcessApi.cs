@@ -11,11 +11,12 @@ using Gel.Scripting;
 namespace Gel
 {
 	[ComVisible(true)]
-	public class ProcessApi
+	public sealed class ProcessApi
 	{
 		internal ProcessApi()
 		{
 			_argv = InitArgs();
+			_console = new ConsoleApi();
 		}
 
 		#region Arguments
@@ -59,9 +60,19 @@ namespace Gel
 
 		#endregion
 
+		ConsoleApi _console;
+
 		public void alert(string message)
 		{
 			MessageBox.Show(message, "@alertTitle", MessageBoxButtons.OK);
+		}
+
+		public object binding(string type)
+		{
+			if (type == "console")
+				return _console;
+
+			return null;
 		}
 
 		public void exit()
