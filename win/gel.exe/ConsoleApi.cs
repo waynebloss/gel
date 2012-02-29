@@ -12,40 +12,33 @@ namespace Gel
 	{
 		internal ConsoleApi() { }
 
-		public int log(string output)
+		public void log(string output)
 		{
 			Debug.Print(output);
-			return String.IsNullOrEmpty(output) ? 0 : output.Length;
 		}
-		public int warn(string output)
+		public void warn(string output)
 		{
 			Debug.Print(output);
-			return String.IsNullOrEmpty(output) ? 0 : output.Length;
 		}
-		public int dir(string output)
+		public void dir(string output)
 		{
 			Debug.Print(output);
-			return String.IsNullOrEmpty(output) ? 0 : output.Length;
 		}
-		public int time(string label)
+		public void time(string label)
 		{
 			Debug.Print(label);
-			return String.IsNullOrEmpty(label) ? 0 : label.Length;
 		}
-		public int timeEnd(string label)
+		public void timeEnd(string label)
 		{
 			Debug.Print(label);
-			return String.IsNullOrEmpty(label) ? 0 : label.Length;
 		}
-		public int trace(string output)
+		public void trace(string output)
 		{
 			Debug.Print(output);
-			return String.IsNullOrEmpty(output) ? 0 : output.Length;
 		}
-		public int assert(string output)
+		public void assert(string output)
 		{
 			Debug.Print(output);
-			return String.IsNullOrEmpty(output) ? 0 : output.Length;
 		}
 	}
 }
