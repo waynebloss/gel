@@ -14,8 +14,7 @@ var global;
 		startup.globalVariables();
 		startup.globalTimeouts();
 		
-		process.alert("Hi");
-		console.log("Hi, Hi!");
+
 	}
 	
 	startup.globalVariables = function() {
@@ -51,5 +50,5 @@ var global;
 	};
 	//!#include <Gel.native_module.js>
 	startup();
-
+	
 })();

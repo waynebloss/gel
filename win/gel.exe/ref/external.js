@@ -9,7 +9,7 @@ var external = (function() {
 		/// <param name="output">The string to log.</param>
 	};
 	console.info = console.log;
-	console.warn = function() {
+	console.warn = function(output) {
 		/// <summary>Same as console.log but prints to stderr.</summary>
 	};
 	console.error = console.warn;
