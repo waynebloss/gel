@@ -98,22 +98,22 @@ namespace Gel.Scripting.JScript
 				Trace.TraceError(prefix + "Unknown Error.");
 		}
 
-		protected override int GetLineSource(int sourceId, int scriptLine, out string path)
+		protected override int GetLineSource(int sourceId, int sourceLine, ref string path)
 		{
 			if (sourceId == 0)
 			{
 				path = "(global)";
-				return scriptLine;
+				return sourceLine;
 			}
 			IScriptSource src;
 			if (!_sourceById.TryGetValue(sourceId, out src))
 			{
-				path = null;
-				return scriptLine;
+				return sourceLine;
 			}
 			IScriptSource src2;
-			int srcLine = src.GetLineSource(scriptLine, out src2);
-			path = src2.Path;
+			int srcLine = src.GetLineSource(sourceLine, out src2);
+			if (src2 != null && src2.Path != null)
+				path = src2.Path;
 			return srcLine;
 		}
 
@@ -225,6 +225,8 @@ namespace Gel.Scripting.JScript
 		#endregion
 
 		#region Eval
+
+		const string EvalHackVarName = "Eval___";
 
 		public object Eval(string expression)
 		{
