@@ -2,7 +2,9 @@
 /// <reference path="console.js"/>
 
 // #include <Gel.process.js>
+// #include <Gel.natives.js>
 // #include <Gel.console.js>
+// #include <Gel.evals.js>
 
 var global;
 
@@ -14,6 +16,8 @@ var global;
 		startup.globalVariables();
 		startup.globalTimeouts();
 		
+		var util = NativeModule.require('util');
+		util.puts("Heloooooooooooooooooooooooooooooooooooo");
 
 	}
 	
@@ -25,6 +29,7 @@ var global;
 // TODO: Restore when possible:
 //		global.Buffer = NativeModule.require('buffer').Buffer;
 	};
+
 	startup.globalTimeouts = function() {
 
 		global.setTimeout = function() {
@@ -47,8 +52,11 @@ var global;
 //			var t = NativeModule.require('timers');
 //			return t.clearInterval.apply(this, arguments);
 		};
+
 	};
-	//!#include <Gel.native_module.js>
+
+// #include <Gel.native_module.js>
+
 	startup();
 	
 })();

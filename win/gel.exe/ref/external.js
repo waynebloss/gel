@@ -43,12 +43,16 @@ var external = (function() {
 		/// <summary>Gets the argument from the given index.</summary>
 		return "";
 	};
-	ProcessApi.prototype.binding = function(type) {
-		/// <summary>Returns the native binding object.</summary>
-		/// <param name="type" type="String">Type or instance name..</param>
-		switch (type) {
+	ProcessApi.prototype.getApi = function(name) {
+		/// <summary>Returns the native API object.</summary>
+		/// <param name="name" type="String">Name of the API to return.</param>
+		switch (name) {
 			case 'console':
 				return console;
+			case 'natives':
+				return {
+					util: "// util source."
+				};
 			default:
 				return {};
 		}

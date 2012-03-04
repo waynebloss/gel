@@ -186,12 +186,16 @@ namespace Gel.Scripting
 	{
 		readonly string _code;
 
-		public ScriptCode(string code)
+		public ScriptCode(string code) : this(code, null) { }
+
+		public ScriptCode(string code, string path)
 		{
 			_code = code;
+			_Path = path;
 		}
 
-		public string Path { get { return null; } }
+		readonly string _Path;
+		public string Path { get { return _Path; } }
 
 		public int GetLineSource(int line, out IScriptSource source)
 		{

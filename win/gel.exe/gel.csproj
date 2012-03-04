@@ -47,6 +47,7 @@
     <Compile Include="App.cs" />
     <Compile Include="CharUtil.cs" />
     <Compile Include="ComUtil.cs" />
+    <Compile Include="EvalsApi.cs" />
     <Compile Include="GelArray.cs" />
     <Compile Include="Data\Json.cs" />
     <Compile Include="Data\JsonReader.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="GelObject.cs" />
     <Compile Include="IO\EmbeddedFile.cs" />
     <Compile Include="IO\TempFile.cs" />
+    <Compile Include="NativesApi.cs" />
     <Compile Include="Scripting\NodeJs\NodeProcess.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -99,6 +101,9 @@
     <EmbeddedResource Include="process.js" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="evals.js" />
+    <EmbeddedResource Include="lib\util.js" />
+    <EmbeddedResource Include="natives.js" />
     <Content Include="ref\process.js" />
     <EmbeddedResource Include="native_module.js" />
     <EmbeddedResource Include="console.js" />

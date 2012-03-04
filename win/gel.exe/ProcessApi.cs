@@ -16,7 +16,14 @@ namespace Gel
 		internal ProcessApi()
 		{
 			_argv = InitArgs();
-			_console = new ConsoleApi();
+			_api = 
+				new [] {
+					new { Key = "console", Val = (object)new ConsoleApi() },
+					new { Key = "evals", Val = (object)new EvalsApi() },
+					new { Key = "natives", Val = (object)new NativesApi() },
+					new { Key = "process", Val = (object)this },
+				}
+				.ToDictionary(k => k.Key, v => v.Val);
 		}
 
 		#region Arguments
@@ -60,25 +67,24 @@ namespace Gel
 
 		#endregion
 
-		ConsoleApi _console;
+		Dictionary<string, object> _api;
 
 		public void alert(string message)
 		{
 			MessageBox.Show(message, "@alertTitle", MessageBoxButtons.OK);
 		}
 
-		public object binding(string type)
-		{
-			if (type == "console")
-				return _console;
-
-			return null;
-		}
-
 		public void exit()
 		{
 			Debug.Print("process.exit();");
 			App.Current.Exit();
+		}
+
+		public object getApi(string name)
+		{
+			object value;
+			_api.TryGetValue(name, out value);
+			return value;
 		}
 
 		public void addTestExpression()

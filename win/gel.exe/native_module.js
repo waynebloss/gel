@@ -1,75 +1,82 @@
-﻿//var Script = process.binding('evals').NodeScript;
-//var runInThisContext = Script.runInThisContext;
+﻿/// <reference path="ref/process.js"/>
+/// <reference path="console.js"/>
 
-//function NativeModule(id) {
-//	/// <summary>A minimal module system, which is used to load the core modules
-//	/// found in lib/*.js. All core modules are compiled into the binary, so they
-//	/// can be loaded faster.</summary>
-//	/// <param name="id" type="String">Id of the module.</param>
-//	this.filename = id + '.js';
-//	this.id = id;
-//	this.exports = {};
-//	this.loaded = false;
-//}
+var Script = process.binding('evals').NodeScript;
+var runInThisContext = Script.runInThisContext;
 
-//NativeModule._source = process.binding('natives');
-//NativeModule._cache = {};
+function NativeModule(id) {
+	/// <summary>A minimal module system, which is used to load the core modules
+	/// found in lib/*.js. All core modules are compiled into the binary, so they
+	/// can be loaded faster.</summary>
+	/// <param name="id" type="String">Id of the module.</param>
+	this.filename = id + '.js';
+	this.id = id;
+	this.exports = {};
+	this.loaded = false;
+}
 
-//NativeModule.require = function(id) {
-//	if (id == 'native_module') {
-//		return NativeModule;
-//	}
+NativeModule._source = process.binding('natives');
+NativeModule._cache = {};
 
-//	var cached = NativeModule.getCached(id);
-//	if (cached) {
-//		return cached.exports;
-//	}
+NativeModule.require = function(id) {
+	if (id == 'native_module') {
+		return NativeModule;
+	}
 
-//	if (!NativeModule.exists(id)) {
-//		throw new Error('No such native module ' + id);
-//	}
+	var cached = NativeModule.getCached(id);
+	if (cached) {
+		return cached.exports;
+	}
 
-//	process.moduleLoadList.push('NativeModule ' + id);
+	if (!NativeModule.exists(id)) {
+		throw new Error('No such native module ' + id);
+	}
 
-//	var nativeModule = new NativeModule(id);
+	process.moduleLoadList.push('NativeModule ' + id);
 
-//	nativeModule.compile();
-//	nativeModule.cache();
+	var nativeModule = new NativeModule(id);
 
-//	return nativeModule.exports;
-//};
+	nativeModule.compile();
+	nativeModule.cache();
 
-//NativeModule.getCached = function(id) {
-//	return NativeModule._cache[id];
-//}
+	return nativeModule.exports;
+};
 
-//NativeModule.exists = function(id) {
-//	return NativeModule._source.hasOwnProperty(id);
-//}
+NativeModule.getCached = function(id) {
+	return NativeModule._cache[id];
+};
 
-//NativeModule.getSource = function(id) {
-//	return NativeModule._source[id];
-//}
+NativeModule.exists = function(id) {
+	return NativeModule._source.hasOwnProperty(id);
+};
 
-//NativeModule.wrap = function(script) {
-//	return NativeModule.wrapper[0] + script + NativeModule.wrapper[1];
-//};
+NativeModule.getSource = function(id) {
+	return NativeModule._source[id];
+};
 
-//NativeModule.wrapper = [
-//    '(function (exports, require, module, __filename, __dirname) { ',
-//    '\n});'
-//  ];
+NativeModule.wrap = function(script) {
+	return NativeModule.wrapper[0] + script + NativeModule.wrapper[1];
+};
 
-//NativeModule.prototype.compile = function() {
-//	var source = NativeModule.getSource(this.id);
-//	source = NativeModule.wrap(source);
+NativeModule.wrapper = [
+    '(function (exports, require, module, __filename, __dirname) { ',
+    '\n});'
+  ];
 
-//	var fn = runInThisContext(source, this.filename, true);
-//	fn(this.exports, NativeModule.require, this, this.filename);
+NativeModule.prototype.compile = function() {
+	var source = NativeModule.getSource(this.id);
+	source = NativeModule.wrap(source);
 
-//	this.loaded = true;
-//};
+	var fn = runInThisContext(source, this.filename, true);
+	console.log("fn: " + typeof fn);
+	//fn(this.exports, NativeModule.require, this, this.filename);
+	this.exports.puts = function(xxx) {
+		console.log(xxx);
+	};
 
-//NativeModule.prototype.cache = function() {
-//	NativeModule._cache[this.id] = this;
-//};
+	this.loaded = true;
+};
+
+NativeModule.prototype.cache = function() {
+	NativeModule._cache[this.id] = this;
+};

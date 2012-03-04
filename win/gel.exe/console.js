@@ -2,9 +2,9 @@
 
 var console = (function() {
 
-	var api = process.binding('console');
+	var api = process.api('console');
 	var exports = {};
-
+	
 	exports.log = function(message, args) {
 		/// <summary>Prints to stdout with newline. This function can take multiple arguments in a printf()-like way.</summary>
 		/// <param name="message">The string to print, may include formatting.</param>

@@ -3,12 +3,16 @@
 var process = (function(api) {
 	/// <param name="api" type="__gel.ProcessApi">Host Process API.</param>
 	delete external;
-	
+
+	var _binding = {};
+
 	function Process() {
 		/// <field name="argc" type="Number" integer="true">Count of arguments.</field>
 		/// <field name="argv" type="Array">Array of arguments.</field>
+		/// <field name="moduleLoadList">Just a shim for now.</field>
 		this.argc = api.argc;
 		this.argv = argvFromApi(0, this.argc);
+		this.moduleLoadList = [];
 	}
 
 	Process.prototype.alert = function(message) {
@@ -16,13 +20,21 @@ var process = (function(api) {
 		api.alert(message);
 	};
 
-	Process.prototype.binding = function(type) {
-		return api.binding(type);
+	Process.prototype.binding = function(name) {
+		return _binding[name];
 	};
+
+	Process.prototype.binding.set = function(name, value) {
+		_binding[name] = value;
+	}
 
 	Process.prototype.exit = function() {
 		api.exit();
 	};
+
+	Process.prototype.api = function(name) {
+		return api.getApi(name);
+	}
 
 	function argvFromApi(start, count) {
 		/// <returns type="Array"></returns>
