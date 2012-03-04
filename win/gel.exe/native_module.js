@@ -67,8 +67,7 @@ NativeModule.prototype.compile = function() {
 	var source = NativeModule.getSource(this.id);
 	source = NativeModule.wrap(source);
 
-	runInThisContext(source, this.filename, true);
-	var fn = __getDefined();
+	var fn = __d$(runInThisContext(source, this.filename, true));
 	fn(this.exports, NativeModule.require, this, this.filename);
 
 	this.loaded = true;

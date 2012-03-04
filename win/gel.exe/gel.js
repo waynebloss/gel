@@ -17,8 +17,13 @@ var global;
 		startup.globalTimeouts();
 		
 		var util = NativeModule.require('util');
+
 		util.puts("Heloooooooooooooooooooooooooooooooooooo");
 
+		for (var i in global) {
+			console.log('global.' + i + ': ' + typeof global[i] + 
+				(global[i] === null ? ' (null)' : ''));
+		}
 	}
 	
 	startup.globalVariables = function() {

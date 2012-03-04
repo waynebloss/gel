@@ -45,7 +45,9 @@ function __define(value) {
 	__definedVal = value;
 };
 
-function __getDefined() {
+function __d$(voidArg) {
+	/// <summary>Returns the __definedVal for a call to an evals exported function.</summary>
+	/// <param name="voidArg">Place here the call to a NodeScript method such as NodeScript.runInNewContext.</param>
 	var rval = __definedVal;
 	__definedVal = null;
 	return rval;
