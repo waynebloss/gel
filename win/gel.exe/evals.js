@@ -19,7 +19,7 @@ process.binding.set('evals', (function() {
 
 	};
 	NodeScript.runInThisContext = function(code, fileName, displayError) {
-		api.runInThisContext(code.toString(), fileName.toString(), displayError === true);
+		return api.runInThisContext(code.toString(), fileName.toString(), displayError === true);
 	};
 	NodeScript.runInNewContext = function(code, sandbox, fileName) {
 
@@ -36,19 +36,9 @@ process.binding.set('evals', (function() {
 
 	return evals;
 })());
-
-// HACK: The following code is a hack to retrieve a value from runInThisContext.
-
-var __definedVal = null;
-
-function __define(value) {
-	__definedVal = value;
-};
-
-function __d$(voidArg) {
-	/// <summary>Returns the __definedVal for a call to an evals exported function.</summary>
-	/// <param name="voidArg">Place here the call to a NodeScript method such as NodeScript.runInNewContext.</param>
-	var rval = __definedVal;
-	__definedVal = null;
-	return rval;
-}
+// 
+// HACK: 32-bit only. The following variable is part of a hack to be able to
+// retrieve a value from the (C#) JsEngine.Eval method for Microsoft's
+// 32-bit Jscript parser. It will only be used if executing in a 32-bit process.
+//
+var __eval = null;

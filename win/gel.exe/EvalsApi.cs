@@ -12,10 +12,10 @@ namespace Gel
 	{
 		internal EvalsApi() { }
 
-		public void runInThisContext(string code, string fileName, bool displayError)
+		public object runInThisContext(string code, string fileName, bool displayError)
 		{
 			var src = new ScriptCode(code, fileName);
-			App.Current.Script.Exec(src);
+			return App.Current.Script.Eval(src);
 		}
 	}
 }

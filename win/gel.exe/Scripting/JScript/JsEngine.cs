@@ -218,12 +218,7 @@ namespace Gel.Scripting.JScript
 			{
 				var ex = ExtractSiteException();
 				if (ex != null)
-				{
-					// TODO: The following hack doesn't work. Need a way to get the actual text of the first line.
-					//if (ex.Line == 1 && text.StartsWith(DefineHackName))
-					//    DefineHackErrorFixup(text, ex);
 					throw ex;
-				}
 
 				throw;
 			}
@@ -304,6 +299,8 @@ namespace Gel.Scripting.JScript
 		{
 			if (ex.Column > EvalHackVarName.Length)
 				ex.Column -= EvalHackVarName.Length;
+
+			
 		}
 
 		#endregion
@@ -354,28 +351,6 @@ namespace Gel.Scripting.JScript
 			return parsed;
 		}
 
-		#endregion
-
-		#region Define Hack
-		/// <summary>
-		/// Name of the function used to define native module functions.
-		/// </summary>
-		internal const string DefineHackName = "__define";
-
-		static void DefineHackErrorFixup(string code, ScriptException ex)
-		{
-			// This is how the define hack is called in javascript:
-			//
-			// __define((function() { UsersFirstLineOfCodeHere();
-			//		MoreCodeHere();
-			// }));
-			//
-			// So, we find the first squiggly bracket and adjust our error column.
-			//
-			var bracketIdx = code.IndexOf('{');
-			if (ex.Column > bracketIdx)
-				ex.Column -= bracketIdx;
-		}
 		#endregion
 	}
 }

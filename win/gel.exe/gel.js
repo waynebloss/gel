@@ -24,6 +24,11 @@ var global;
 			console.log('global.' + i + ': ' + typeof global[i] + 
 				(global[i] === null ? ' (null)' : ''));
 		}
+
+		var Script = process.binding('evals').NodeScript;
+		var x = Script.runInThisContext('a = 1;', '', true);
+		console.log('VALUE OF x: ' + x);
+		console.log('typeof a: ' + typeof a);
 	}
 	
 	startup.globalVariables = function() {
