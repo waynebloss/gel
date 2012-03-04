@@ -279,27 +279,25 @@ namespace Gel.Scripting.JScript
 
 				throw;
 			}
-			if (_parser.Is32bit)
+			if (!_parser.Is32bit)
+				return result;
+
+			// Hack to get return value.
+			IntPtr dispatchPtr;
+			_engine.GetScriptDispatch(null, out dispatchPtr);
+			var dispatch = Marshal.GetObjectForIUnknown(dispatchPtr);
+			try
 			{
-				// Hack to get return value.
-				IntPtr dispatchPtr;
-				_engine.GetScriptDispatch(null, out dispatchPtr);
-				var dispatch = Marshal.GetObjectForIUnknown(dispatchPtr);
-				try
-				{
-					return dispatch.GetType().InvokeMember(EvalHackVarName, BindingFlags.GetProperty, null, dispatch, null);
-				}
-				catch
-				{
-					var ex = ExtractSiteException();
-					if (ex != null)
-						throw ex;
-
-					throw;
-				}
-
+				return dispatch.GetType().InvokeMember(EvalHackVarName, BindingFlags.GetProperty, null, dispatch, null);
 			}
-			return result;
+			catch
+			{
+				var ex = ExtractSiteException();
+				if (ex != null)
+					throw ex;
+
+				throw;
+			}
 		}
 
 		static void EvalHackErrorFixup(ScriptException ex)
