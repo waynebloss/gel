@@ -68,11 +68,7 @@ NativeModule.prototype.compile = function() {
 	source = NativeModule.wrap(source);
 
 	var fn = runInThisContext(source, this.filename, true);
-	console.log("fn: " + typeof fn);
-	//fn(this.exports, NativeModule.require, this, this.filename);
-	this.exports.puts = function(xxx) {
-		console.log(xxx);
-	};
+	fn(this.exports, NativeModule.require, this, this.filename);
 
 	this.loaded = true;
 };
