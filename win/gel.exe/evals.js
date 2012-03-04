@@ -41,7 +41,7 @@ process.binding.set('evals', (function() {
 
 var __definedVal = null;
 
-function __define(len, value) {
+function __define(value) {
 	__definedVal = value;
 };
 

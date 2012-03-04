@@ -100,23 +100,8 @@ namespace Gel.Scripting.JScript
 
 		delegate bool ErrorCheckDelegate(ref int col, ref string text);
 
-		static readonly ErrorCheckDelegate[] LineZeroHacks = new[] {
-			(ErrorCheckDelegate)EvalHackErrorCheck,
-			(ErrorCheckDelegate)DefineHackErrorCheck
-		};
-
 		protected override int GetLineSource(int sourceId, int sourceLine, ref int sourceCol, ref string sourceText, ref string path)
 		{
-			/// TODO: The following hack doesn't even work because sourceText is always null!
-			if (sourceLine == 1 && sourceText != null)
-			{
-				// Hack to fix sourceText and sourceCol in special circumstances.
-				foreach (var check in LineZeroHacks)
-				{
-					if (check(ref sourceCol, ref sourceText))
-						break;
-				}
-			}
 			if (sourceId == 0)
 			{
 				path = "(global)";
@@ -233,7 +218,12 @@ namespace Gel.Scripting.JScript
 			{
 				var ex = ExtractSiteException();
 				if (ex != null)
+				{
+					// TODO: The following hack doesn't work. Need a way to get the actual text of the first line.
+					//if (ex.Line == 1 && text.StartsWith(DefineHackName))
+					//    DefineHackErrorFixup(text, ex);
 					throw ex;
+				}
 
 				throw;
 			}
@@ -272,7 +262,7 @@ namespace Gel.Scripting.JScript
 			{
 				if (_parser.Is32bit)
 				{
-					// Hack to get return value.
+					// TODO: Check that this Hack to get return value works as expected.
 					expression = EvalHackVarName + "=" + expression;
 				}
 				_parser.ParseScriptText(expression, null, null, null, sourceIdPtr, 0, ScriptText.IsExpression, out result, out exInfo);
@@ -281,7 +271,11 @@ namespace Gel.Scripting.JScript
 			{
 				var ex = ExtractSiteException();
 				if (ex != null)
+				{
+					// TODO: Test the following hack to see if it corrects the error column number properly.
+					if (ex.Line == 1) EvalHackErrorFixup(ex);
 					throw ex;
+				}
 
 				throw;
 			}
@@ -308,17 +302,10 @@ namespace Gel.Scripting.JScript
 			return result;
 		}
 
-		static bool EvalHackErrorCheck(ref int sourceCol, ref string sourceText)
+		static void EvalHackErrorFixup(ScriptException ex)
 		{
-			if (!sourceText.StartsWith(EvalHackVarName))
-				return false;
-
-			if (sourceCol >= EvalHackVarName.Length)
-				sourceCol -= EvalHackVarName.Length;
-
-			sourceText = sourceText.Substring(EvalHackVarName.Length);
-
-			return true;
+			if (ex.Column > EvalHackVarName.Length)
+				ex.Column -= EvalHackVarName.Length;
 		}
 
 		#endregion
@@ -377,32 +364,19 @@ namespace Gel.Scripting.JScript
 		/// </summary>
 		internal const string DefineHackName = "__define";
 
-		static bool DefineHackErrorCheck(ref int sourceCol, ref string sourceText)
+		static void DefineHackErrorFixup(string code, ScriptException ex)
 		{
-			if (!sourceText.StartsWith(DefineHackName))
-				return false;
-
-			// Get the length to cut, which is specified by the first argument given to __define:
+			// This is how the define hack is called in javascript:
 			//
-			// __define(27, (function() { 
+			// __define((function() { UsersFirstLineOfCodeHere();
+			//		MoreCodeHere();
+			// }));
 			//
-			// cutLength: 27
+			// So, we find the first squiggly bracket and adjust our error column.
 			//
-			var commaIdx = sourceText.IndexOf(',');
-			int cutLength = int.Parse(sourceText.Substring(DefineHackName.Length + 1, commaIdx));
-
-			if (cutLength >= 0)
-			{
-				if (sourceCol > cutLength)
-					sourceCol -= cutLength;
-
-				if (sourceText.Length > cutLength)
-					sourceText = sourceText.Substring(cutLength);
-			}
-			else if(sourceText.Length > DefineHackName.Length)
-				sourceText = sourceText.Substring(DefineHackName.Length);
-
-			return true;
+			var bracketIdx = code.IndexOf('{');
+			if (ex.Column > bracketIdx)
+				ex.Column -= bracketIdx;
 		}
 		#endregion
 	}

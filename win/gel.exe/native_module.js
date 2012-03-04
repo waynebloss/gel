@@ -59,7 +59,7 @@ NativeModule.wrap = function(script) {
 };
 
 NativeModule.wrapper = [
-    '__define(74, function (exports, require, module, __filename, __dirname) { ',
+    '__define(function (exports, require, module, __filename, __dirname) { ',
     '\n});'
   ];
 
