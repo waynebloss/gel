@@ -59,7 +59,7 @@ NativeModule.wrap = function(script) {
 };
 
 NativeModule.wrapper = [
-    '(function (exports, require, module, __filename, __dirname) { ',
+    '__define(74, function (exports, require, module, __filename, __dirname) { ',
     '\n});'
   ];
 
@@ -67,7 +67,8 @@ NativeModule.prototype.compile = function() {
 	var source = NativeModule.getSource(this.id);
 	source = NativeModule.wrap(source);
 
-	var fn = runInThisContext(source, this.filename, true);
+	runInThisContext(source, this.filename, true);
+	var fn = __getDefined();
 	fn(this.exports, NativeModule.require, this, this.filename);
 
 	this.loaded = true;

@@ -98,8 +98,25 @@ namespace Gel.Scripting.JScript
 				Trace.TraceError(prefix + "Unknown Error.");
 		}
 
-		protected override int GetLineSource(int sourceId, int sourceLine, ref string path)
+		delegate bool ErrorCheckDelegate(ref int col, ref string text);
+
+		static readonly ErrorCheckDelegate[] LineZeroHacks = new[] {
+			(ErrorCheckDelegate)EvalHackErrorCheck,
+			(ErrorCheckDelegate)DefineHackErrorCheck
+		};
+
+		protected override int GetLineSource(int sourceId, int sourceLine, ref int sourceCol, ref string sourceText, ref string path)
 		{
+			/// TODO: The following hack doesn't even work because sourceText is always null!
+			if (sourceLine == 1 && sourceText != null)
+			{
+				// Hack to fix sourceText and sourceCol in special circumstances.
+				foreach (var check in LineZeroHacks)
+				{
+					if (check(ref sourceCol, ref sourceText))
+						break;
+				}
+			}
 			if (sourceId == 0)
 			{
 				path = "(global)";
@@ -226,7 +243,10 @@ namespace Gel.Scripting.JScript
 
 		#region Eval
 
-		const string EvalHackVarName = "Eval___";
+		/// <summary>
+		/// Name of the variable used to retrieve Eval values under certain conditions.
+		/// </summary>
+		internal const string EvalHackVarName = "__eval";
 
 		public object Eval(string expression)
 		{
@@ -250,6 +270,11 @@ namespace Gel.Scripting.JScript
 			object result;
 			try
 			{
+				if (_parser.Is32bit)
+				{
+					// Hack to get return value.
+					expression = EvalHackVarName + "=" + expression;
+				}
 				_parser.ParseScriptText(expression, null, null, null, sourceIdPtr, 0, ScriptText.IsExpression, out result, out exInfo);
 			}
 			catch
@@ -260,7 +285,40 @@ namespace Gel.Scripting.JScript
 
 				throw;
 			}
+			if (_parser.Is32bit)
+			{
+				// Hack to get return value.
+				IntPtr dispatchPtr;
+				_engine.GetScriptDispatch(null, out dispatchPtr);
+				var dispatch = Marshal.GetObjectForIUnknown(dispatchPtr);
+				try
+				{
+					return dispatch.GetType().InvokeMember(EvalHackVarName, BindingFlags.GetProperty, null, dispatch, null);
+				}
+				catch
+				{
+					var ex = ExtractSiteException();
+					if (ex != null)
+						throw ex;
+
+					throw;
+				}
+
+			}
 			return result;
+		}
+
+		static bool EvalHackErrorCheck(ref int sourceCol, ref string sourceText)
+		{
+			if (!sourceText.StartsWith(EvalHackVarName))
+				return false;
+
+			if (sourceCol >= EvalHackVarName.Length)
+				sourceCol -= EvalHackVarName.Length;
+
+			sourceText = sourceText.Substring(EvalHackVarName.Length);
+
+			return true;
 		}
 
 		#endregion
@@ -311,6 +369,41 @@ namespace Gel.Scripting.JScript
 			return parsed;
 		}
 
+		#endregion
+
+		#region Define Hack
+		/// <summary>
+		/// Name of the function used to define native module functions.
+		/// </summary>
+		internal const string DefineHackName = "__define";
+
+		static bool DefineHackErrorCheck(ref int sourceCol, ref string sourceText)
+		{
+			if (!sourceText.StartsWith(DefineHackName))
+				return false;
+
+			// Get the length to cut, which is specified by the first argument given to __define:
+			//
+			// __define(27, (function() { 
+			//
+			// cutLength: 27
+			//
+			var commaIdx = sourceText.IndexOf(',');
+			int cutLength = int.Parse(sourceText.Substring(DefineHackName.Length + 1, commaIdx));
+
+			if (cutLength >= 0)
+			{
+				if (sourceCol > cutLength)
+					sourceCol -= cutLength;
+
+				if (sourceText.Length > cutLength)
+					sourceText = sourceText.Substring(cutLength);
+			}
+			else if(sourceText.Length > DefineHackName.Length)
+				sourceText = sourceText.Substring(DefineHackName.Length);
+
+			return true;
+		}
 		#endregion
 	}
 }

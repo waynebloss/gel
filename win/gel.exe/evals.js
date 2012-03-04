@@ -19,11 +19,7 @@ process.binding.set('evals', (function() {
 
 	};
 	NodeScript.runInThisContext = function(code, fileName, displayError) {
-		// HACK: The use of __NodeScriptValue here is a hack to get a return value.
-		api.runInThisContext("var __NodeScriptValue = " + code.toString(), fileName.toString(), displayError === true);
-		var value = __NodeScriptValue;
-		__NodeScriptValue = null;
-		return value;
+		api.runInThisContext(code.toString(), fileName.toString(), displayError === true);
 	};
 	NodeScript.runInNewContext = function(code, sandbox, fileName) {
 
@@ -40,3 +36,17 @@ process.binding.set('evals', (function() {
 
 	return evals;
 })());
+
+// HACK: The following code is a hack to retrieve a value from runInThisContext.
+
+var __definedVal = null;
+
+function __define(len, value) {
+	__definedVal = value;
+};
+
+function __getDefined() {
+	var rval = __definedVal;
+	__definedVal = null;
+	return rval;
+}

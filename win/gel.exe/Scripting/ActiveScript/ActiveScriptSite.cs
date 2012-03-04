@@ -101,7 +101,7 @@ namespace Gel.Scripting.ActiveScript
 			return ex;
 		}
 
-		protected virtual int GetLineSource(int sourceId, int sourceLine, ref string path)
+		protected virtual int GetLineSource(int sourceId, int sourceLine, ref int sourceCol, ref string sourceText, ref string path)
 		{
 			return sourceLine;
 		}
@@ -126,7 +126,7 @@ namespace Gel.Scripting.ActiveScript
 			var errDesc = exInfo.bstrDescription;
 
 			string errFilePath = null;
-			errLine = (uint)GetLineSource((int)errCtx, (int)errLine, ref errFilePath);
+			errLine = (uint)GetLineSource((int)errCtx, (int)errLine, ref errCol, ref errLineText, ref errFilePath);
 			errFilePath = errFilePath ?? "[unknown]";
 
 			string message = (!string.IsNullOrEmpty(errLineText)) ?
