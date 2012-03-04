@@ -1,6 +1,7 @@
 ﻿/// <reference path="ref/process.js"/>
 /// <reference path="console.js"/>
 
+// #include <Gel.shims.js>
 // #include <Gel.process.js>
 // #include <Gel.natives.js>
 // #include <Gel.console.js>
@@ -11,24 +12,20 @@ var global;
 (function() {
 	
 	global = this;
-	
+
 	function startup() {
+		var EventEmitter = NativeModule.require('events').EventEmitter;
+		process.__proto__(EventEmitter.prototype);
+		process.EventEmitter = EventEmitter; // process.EventEmitter is deprecated
+		
 		startup.globalVariables();
 		startup.globalTimeouts();
-		
-		var util = NativeModule.require('util');
 
-		util.puts("Heloooooooooooooooooooooooooooooooooooo");
+		process.on('exit', function() {
+			console.log('exiting!!!!!!!!!!!!!!!!!!');
+		});
 
-		for (var i in global) {
-			console.log('global.' + i + ': ' + typeof global[i] + 
-				(global[i] === null ? ' (null)' : ''));
-		}
-
-		var Script = process.binding('evals').NodeScript;
-		var x = Script.runInThisContext('a = 1;', '', true);
-		console.log('VALUE OF x: ' + x);
-		console.log('typeof a: ' + typeof a);
+		process.exit();
 	}
 	
 	startup.globalVariables = function() {

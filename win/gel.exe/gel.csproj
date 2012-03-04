@@ -104,6 +104,8 @@
     <EmbeddedResource Include="evals.js" />
     <EmbeddedResource Include="lib\util.js" />
     <EmbeddedResource Include="natives.js" />
+    <EmbeddedResource Include="lib\events.js" />
+    <EmbeddedResource Include="shims.js" />
     <Content Include="ref\process.js" />
     <EmbeddedResource Include="native_module.js" />
     <EmbeddedResource Include="console.js" />

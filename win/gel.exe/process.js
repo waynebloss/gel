@@ -29,6 +29,7 @@ var process = (function(api) {
 	}
 
 	Process.prototype.exit = function() {
+		this.emit('exit');
 		api.exit();
 	};
 
