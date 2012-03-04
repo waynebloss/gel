@@ -19,7 +19,7 @@ process.binding.set('evals', (function() {
 
 	};
 	NodeScript.runInThisContext = function(code, fileName, displayError) {
-		// TODO: adding "var __NodeScriptValue = " is a filthy hack to get a return value.
+		// HACK: The use of __NodeScriptValue here is a hack to get a return value.
 		api.runInThisContext("var __NodeScriptValue = " + code.toString(), fileName.toString(), displayError === true);
 		var value = __NodeScriptValue;
 		__NodeScriptValue = null;
