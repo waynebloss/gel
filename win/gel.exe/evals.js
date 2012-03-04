@@ -22,7 +22,13 @@ process.binding.set('evals', (function() {
 		return api.runInThisContext(code.toString(), fileName.toString(), displayError === true);
 	};
 	NodeScript.runInNewContext = function(code, sandbox, fileName) {
-
+		// CONSIDER: To eval in a sandbox, maybe something like the following,
+		// (probably in C# instead of here):
+		//
+		// (assume var __sandbox = null; in global context)
+		// __sandbox = sandbox;
+		// code = 'with(__sandbox) {\n__eval=' + code + '\n};'
+		//
 	};
 	NodeScript.prototype.createContext = NodeScript.createContext;
 	NodeScript.prototype.runInContext = NodeScript.runInContext;
