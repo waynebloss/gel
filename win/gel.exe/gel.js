@@ -21,6 +21,17 @@ var global;
 
 		startup.globalVariables();
 		startup.globalTimeouts();
+		startup.globalConsole();
+
+		startup.processAssert();
+		startup.processNextTick();
+//		startup.processStdio();
+//		startup.processKillAndExit();
+//		startup.processSignalHandlers();
+
+//		startup.processChannel();
+
+//		startup.resolveArgv0();
 
 		startup.printEngineVer();
 
@@ -41,7 +52,6 @@ var global;
 		// TODO: Restore when possible:
 		//		global.Buffer = NativeModule.require('buffer').Buffer;
 	};
-
 	startup.globalTimeouts = function() {
 
 		global.setTimeout = function() {
@@ -65,6 +75,59 @@ var global;
 			//			return t.clearInterval.apply(this, arguments);
 		};
 
+	};
+	startup.globalConsole = function() {
+		// The following commented-out code is not necessary:
+		//global.__defineGetter__('console', function() {
+		//  return NativeModule.require('console');
+		//});
+	};
+
+	startup._lazyConstants = null;
+	startup.lazyConstants = function() {
+		if (!startup._lazyConstants) {
+			startup._lazyConstants = process.binding('constants');
+		}
+		return startup._lazyConstants;
+	};
+
+	var assert;
+	startup.processAssert = function() {
+		// Note that calls to assert() are pre-processed out by JS2C for the
+		// normal build of node. They persist only in the node_g build.
+		// Similarly for debug().
+		assert = process.assert = function(x, msg) {
+			if (!x) throw new Error(msg || 'assertion error');
+		};
+	};
+	startup.processNextTick = function() {
+		var nextTickQueue = [];
+
+		process._tickCallback = function() {
+			var l = nextTickQueue.length;
+			if (l === 0) return;
+
+			var q = nextTickQueue;
+			nextTickQueue = [];
+
+			try {
+				for (var i = 0; i < l; i++) q[i]();
+			}
+			catch (e) {
+				if (i + 1 < l) {
+					nextTickQueue = q.slice(i + 1).concat(nextTickQueue);
+				}
+				if (nextTickQueue.length) {
+					process._needTickCallback();
+				}
+				throw e; // process.nextTick error, or 'error' event on first tick
+			}
+		};
+
+		process.nextTick = function(callback) {
+			nextTickQueue.push(callback);
+			process._needTickCallback();
+		};
 	};
 
 	startup.printEngineVer = function() {

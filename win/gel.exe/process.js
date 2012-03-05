@@ -15,6 +15,10 @@ var process = (function(api) {
 		this.moduleLoadList = [];
 	}
 
+	Process.prototype._needTickCallback = function() {
+		// TODO: Tell API to call back to process._tickCallback in a tick.
+	};
+
 	Process.prototype.set__proto__ = function(source) {
 		for (var member in source) {
 			this[member] = source[member];
