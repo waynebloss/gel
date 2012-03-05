@@ -15,6 +15,12 @@ var process = (function(api) {
 		this.moduleLoadList = [];
 	}
 
+	Process.prototype.set__proto__ = function(source) {
+		for (var member in source) {
+			this[member] = source[member];
+		}
+	};
+
 	Process.prototype.alert = function(message) {
 		/// <summary>Standard alert function.</summary>
 		api.alert(message);
