@@ -25,6 +25,11 @@ var global;
 
 		startup.processAssert();
 		startup.processNextTick();
+
+		// temp stubs for stdio until startup.processStdio is implemented.
+		process.stdout = {write:console.log};
+		process.stderr = {write:console.log};
+
 //		startup.processStdio();
 //		startup.processKillAndExit();
 //		startup.processSignalHandlers();
@@ -144,6 +149,9 @@ var global;
 })();
 
 function testMain() {
+
+	var util = NativeModule.require('util');
+	util.puts("Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
 
 	function ClassName(name) {
 		this.data = name;
