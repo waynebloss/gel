@@ -11,6 +11,8 @@
 
 
 (function(global, undefined) {
+	
+	"use strict";
 
 	/**
 	 * Checks features of the JavaScript engine 

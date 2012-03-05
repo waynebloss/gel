@@ -106,6 +106,7 @@
     <EmbeddedResource Include="natives.js" />
     <EmbeddedResource Include="lib\events.js" />
     <EmbeddedResource Include="ddr-ecma5.js" />
+    <EmbeddedResource Include="json2.js" />
     <Content Include="ref\process.js" />
     <EmbeddedResource Include="native_module.js" />
     <EmbeddedResource Include="console.js" />

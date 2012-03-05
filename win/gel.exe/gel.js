@@ -2,6 +2,7 @@
 /// <reference path="console.js"/>
 
 // #include <Gel.ddr-ecma5.js>
+// #include <Gel.json2.js>
 // #include <Gel.process.js>
 // #include <Gel.natives.js>
 // #include <Gel.console.js>
@@ -23,7 +24,7 @@ var global;
 
 		startup.printEngineVer();
 
-		//testMain();
+		testMain();
 
 		process.on('exit', function() {
 			console.log('exiting!!!!!!!!!!!!!!!!!!');
@@ -93,6 +94,9 @@ function testMain() {
 	var cn2 = new ClassName("ClassBb");
 	cn2.doIt();
 
+	console.log(JSON.stringify(cn));
+	
+	console.log('Object.defineProperty: ' + typeof Object.defineProperty);
 	console.log('Object.defineProperties: ' + typeof Object.defineProperties);
 
 	// Create a user-defined object.
@@ -105,7 +109,7 @@ function testMain() {
 				value: 101,
 				writable: true,
 				enumerable: true,
-				configurable: false
+				configurable: true
 			});
 
 	// Set the property value.
