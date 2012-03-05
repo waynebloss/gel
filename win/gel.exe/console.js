@@ -14,7 +14,7 @@ var console = (function() {
 		api.log(message);
 	};
 	exports.info = exports.log;
-	exports.warn = function() {
+	exports.warn = function(output) {
 		/// <summary>Same as console.log but prints to stderr.</summary>
 		api.warn(output);
 	};

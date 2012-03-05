@@ -26,5 +26,7 @@ namespace Gel
 		public string util { get { return GetCode("util"); } }
 
 		public string events { get { return GetCode("events"); } }
+
+		public string stream { get { return GetCode("stream"); } }
 	}
 }

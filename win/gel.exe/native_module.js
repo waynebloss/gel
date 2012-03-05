@@ -87,7 +87,7 @@ NativeModule.prototype.deprecate = function(method, message) {
 	message = message || '';
 
 	Object.defineProperty(this.exports, method, {
-		//enumerable: false, // !compat
+		enumerable: false,
 		value: function() {
 			if (!warned) {
 				warned = true;

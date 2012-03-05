@@ -621,7 +621,7 @@
 			
 			var t = null;
 			if( (!desc[t="configurable"]) || (!desc[t="enumerable"]) || (!desc[t="writable"]) ) {
-				throw new TypeError( "Property '".concat(t,"' cannot be set to false in this version of ECMAScript engine") );
+				console.warn( "Property '".concat(t,"' cannot be set to false in this version of ECMAScript engine") );
 			}		
 
 			return desc;				
