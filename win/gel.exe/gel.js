@@ -21,6 +21,30 @@ var global;
 		startup.globalVariables();
 		startup.globalTimeouts();
 
+		console.log(engineVer());
+
+		console.log('Object.defineProperties: ' + typeof Object.defineProperties);
+
+		// Create a user-defined object.
+		// To instead use an existing DOM object, uncomment the line below.
+		var obj = {};
+		//  var obj = window.document;
+
+		// Add a data property to the object.
+//		Object.defineProperty(obj, "newDataProperty", {
+//			value: 101,
+//			writable: true,
+//			enumerable: true,
+//			configurable: true
+//		});
+
+		// Set the property value.
+		obj.newDataProperty = 102;
+		console.log("Property value: " + obj.newDataProperty);
+
+		// Output:
+		//  Property value: 102
+
 		process.on('exit', function() {
 			console.log('exiting!!!!!!!!!!!!!!!!!!');
 		});

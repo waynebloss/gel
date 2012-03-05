@@ -218,4 +218,13 @@ namespace Gel.Scripting.ActiveScript
 			out object result,
 			out EXCEPINFO exceptionInfo);
 	}
+
+	[ComImport]
+	[Guid("4954E0D0-FBC7-11D1-8410-006008C3FBFC")]
+	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+	interface IActiveScriptProperty
+	{
+		void GetProperty(ScriptProp dwProperty, IntPtr pvarIndex, [Out] out object pvarValue);
+		void SetProperty(ScriptProp dwProperty, IntPtr pvarIndex, [In] ref object pvarValue);
+	}
 }

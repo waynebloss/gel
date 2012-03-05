@@ -26,8 +26,21 @@ namespace Gel.Scripting.JScript
 
 		public JsEngine(UnhandledExceptionEventHandler uexHandler)
 		{
+			//DocVersionString = "DOCTYPE html";
+
 			_engine = CreateNativeEngine();
 			_engine.SetScriptSite(this);
+
+			// Set properties.
+			var activeScriptProperty = (IActiveScriptProperty)_engine;
+
+			// Indicate that we are not combining multiple script engines.
+			//object value = true;
+			//activeScriptProperty.SetProperty(ScriptProp.ABBREVIATE_GLOBALNAME_RESOLUTION, IntPtr.Zero, ref value);
+
+			// Upgrade the version of the script engine to 5.8 (IE 8).
+			object value = (int)ScriptLangVer.V9;
+			activeScriptProperty.SetProperty(ScriptProp.INVOKEVERSIONING, IntPtr.Zero, ref value);
 
 			_parser = new ActiveScriptParser(_engine);
 			_parser.InitNew();

@@ -43,6 +43,22 @@ namespace Gel.Scripting.ActiveScript
 		NoCode = 0x0400,
 	}
 
+	enum ScriptLangVer : int
+	{
+		SCRIPTLANGUAGEVERSION_DEFAULT = 0,
+		V5_7 = 1,
+		V5_8 = 2,
+		V9 = 3
+	}
+
+	enum ScriptProp : uint
+	{
+		INTEGERMODE = 0x00003000,
+		STRINGCOMPAREINSTANCE = 0x00003001,
+		ABBREVIATE_GLOBALNAME_RESOLUTION = 0x70000002,
+		INVOKEVERSIONING = 0x00004000,
+	}
+
 	[Flags]
 	enum ScriptText : uint
 	{
