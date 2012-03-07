@@ -207,7 +207,7 @@ namespace Gel.Scripting.ActiveScript
 		[Conditional("DEBUG")]
 		protected void DebugEvent(string eventHeader, params object[] args)
 		{
-			Debug.Print(GetType().Name + "." + String.Format(eventHeader, args));
+			//Debug.Print(GetType().Name + "." + String.Format(eventHeader, args));
 		}
 	}
 }
