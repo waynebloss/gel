@@ -115,21 +115,31 @@ namespace Gel.Scripting.JScript
 
 		protected override int GetLineSource(int sourceId, int sourceLine, ref int sourceCol, ref string sourceText, ref string path)
 		{
+			// TODO: If sourceLine == 0, get line zero of source (via sourceId). If
+			// line zero starts with a "magic string" such as a call to a module
+			// loader function, adjust the sourceCol to hide the magic string.
+
+			// Change the reported column from zero to one based.
+			sourceCol++;
+			
+			/// Find the <see cref="IScriptSource">source</see> for the given line,
+			/// set the path argument from it, change the reported line from zero
+			/// to one based and return.
 			if (sourceId == 0)
 			{
 				path = "(global)";
-				return sourceLine;
+				return sourceLine + 1;
 			}
 			IScriptSource src;
 			if (!_sourceById.TryGetValue(sourceId, out src))
 			{
-				return sourceLine;
+				return sourceLine + 1;
 			}
 			IScriptSource src2;
 			int srcLine = src.GetLineSource(sourceLine, out src2);
 			if (src2 != null && src2.Path != null)
 				path = src2.Path;
-			return srcLine;
+			return srcLine + 1;
 		}
 
 		#endregion

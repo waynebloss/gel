@@ -44,7 +44,7 @@ namespace Gel.Scripting.JScript
 					if (line >= item.First && line <= item.Last)
 					{
 						source = item.Source;
-						return line - item.First + item.Offset + 1;
+						return (line - item.First) + item.Offset;
 					}
 				}
 				source = _source;
@@ -63,8 +63,14 @@ namespace Gel.Scripting.JScript
 			class LineSource
 			{
 				public LineSource(IScriptSource source)
+					: this(source, 0) { }
+				
+				public LineSource(IScriptSource source, int offset)
 				{
 					_Source = source;
+					First = -1;
+					Last = -1;
+					Offset = offset;
 				}
 
 				/// <summary>
@@ -113,18 +119,27 @@ namespace Gel.Scripting.JScript
 				var map = new List<LineSource>();
 				int count = 0;
 
-				Process(_source, sb, map, 0, ref count);
+				Process(_source, sb, map, 0, ref count, null);
 				_lineSrcMap = map;
 				_processedCode = sb.ToString();
 
 				return _processedCode;
 			}
 
-			static void Process(IScriptSource source, StringBuilder sb, IList<LineSource> map, int level, ref int count)
+			static void Add(LineSource chunk, ref int count, ref int localCount)
+			{
+				if (chunk.First < 0)
+					chunk.First = count;
+				chunk.Last = count;
+
+				count++;
+				localCount++;
+			}
+
+			static void Process(IScriptSource source, StringBuilder sb, List<LineSource> map, int level, ref int count, string includeArg)
 			{
 				var chunk = new LineSource(source);
-				chunk.First = count + 1;
-				chunk.Last = count;
+				var localCount = 0;
 
 				var indent = (string)null;
 				var lines = source.AsEnumerableLines();
@@ -136,9 +151,8 @@ namespace Gel.Scripting.JScript
 					if (line.Length < IncLexMinLen ||
 						!line.StartsWith(IncLex))
 					{
-						chunk.Last++;
-						count++;
 						sb.AppendLine(line);
+						Add(chunk, ref count, ref localCount);
 						continue;
 					}
 					/// Get the argument portion of the include statement.
@@ -146,9 +160,8 @@ namespace Gel.Scripting.JScript
 					var argEnd = line.IndexOfAny(new[] { '>', '"' }, IncLexLen + 1);
 					if (argEnd < IncLexLen)
 					{
-						chunk.Last++;
-						count++;
 						sb.AppendLine(line);
+						Add(chunk, ref count, ref localCount);
 						continue;
 					}
 					var arg = line.Substring(IncLexLen + 1, argEnd - IncLexLen - 1);
@@ -163,39 +176,32 @@ namespace Gel.Scripting.JScript
 					case '<':
 						/// Embedded Path.
 						indent = indent ?? new String(' ', level);
-						chunk.Last++;
-						count++;
 						sb.AppendLine(String.Format("{0}// <{1}> include BEGIN", indent, arg));
+						Add(chunk, ref count, ref localCount);
 
 						map.Add(chunk);
-
-						// New chunk of source.
-						int offset = count - chunk.First + 1;
-						chunk = new LineSource(source);
-						chunk.Offset = offset;
 						
 						var efileSrc = new ScriptEmbedded(arg);
-						Process(efileSrc, sb, map, level + 1, ref count);
-						sb.AppendLine(String.Format("{0}// <{1}> include END", indent, arg));
+						Process(efileSrc, sb, map, level + 1, ref count, arg);
 
-						chunk.First = count + 1;
-						chunk.Last = count;
+						// New chunk of source.
+						chunk = new LineSource(source, localCount);
 
 						break;
 					case '"':
 						/// TODO: Preprocess Include File Path.
 						throw new NotImplementedException();
 					default:
-						chunk.Last++;
-						count++;
 						sb.AppendLine(line);
+						Add(chunk, ref count, ref localCount);
 						break;
 					}
 				}
 				if (level > 0)
 				{
-					chunk.Last++;
-					count++;
+					indent = new String(' ', level - 1);
+					sb.AppendLine(String.Format("{0}// <{1}> include END", indent, includeArg));
+					Add(chunk, ref count, ref localCount);
 				}
 				map.Add(chunk);
 			}

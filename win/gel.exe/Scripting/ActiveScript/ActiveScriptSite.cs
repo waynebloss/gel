@@ -117,8 +117,6 @@ namespace Gel.Scripting.ActiveScript
 			uint errLine;
 			int errCol;
 			scriptError.GetSourcePosition(out errCtx, out errLine, out errCol);
-			errLine++;
-			errCol++;
 
 			var errNum = exInfo.scode;
 			var errLineText = SafeGetSourceLineText(scriptError, errNum);
