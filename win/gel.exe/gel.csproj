@@ -108,6 +108,8 @@
     <EmbeddedResource Include="ddr-ecma5.js" />
     <EmbeddedResource Include="json2.js" />
     <EmbeddedResource Include="lib\stream.js" />
+    <EmbeddedResource Include="lib\path.js" />
+    <EmbeddedResource Include="lib\string_decoder.js" />
     <Content Include="ref\process.js" />
     <EmbeddedResource Include="native_module.js" />
     <EmbeddedResource Include="console.js" />

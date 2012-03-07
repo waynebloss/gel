@@ -40,6 +40,12 @@ var global;
 
 		startup.printEngineVer();
 
+		var path = NativeModule.require('path');
+		var ext = path.extname('boo/boo/boo.js');
+		console.log('ext: ' + ext);
+
+		var sd = NativeModule.require('string_decoder');
+
 		process.on('exit', function() {
 			console.log('exiting!!!!!!!!!!!!!!!!!!');
 		});
