@@ -32,5 +32,9 @@ namespace Gel
 		public string path { get { return GetCode("path"); } }
 
 		public string string_decoder { get { return GetCode("string_decoder"); } }
+
+		public string assert { get { return GetCode("assert"); } }
+
+		public string test_assert { get { return GetCode("test_assert"); } }
 	}
 }

@@ -110,6 +110,8 @@
     <EmbeddedResource Include="lib\stream.js" />
     <EmbeddedResource Include="lib\path.js" />
     <EmbeddedResource Include="lib\string_decoder.js" />
+    <EmbeddedResource Include="lib\assert.js" />
+    <EmbeddedResource Include="lib\test_assert.js" />
     <Content Include="ref\process.js" />
     <EmbeddedResource Include="native_module.js" />
     <EmbeddedResource Include="console.js" />

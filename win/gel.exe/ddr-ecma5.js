@@ -1012,6 +1012,11 @@
 			return false;
 		};
 	})();
-	
+
+	Object.set__proto__ = function(target, source) {
+		for (var member in source) {
+			target[member] = source[member];
+		}
+	};
 	
 })(this);

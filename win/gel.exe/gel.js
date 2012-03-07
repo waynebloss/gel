@@ -16,7 +16,7 @@ var global;
 
 	function startup() {
 		var EventEmitter = NativeModule.require('events').EventEmitter;
-		process.set__proto__(EventEmitter.prototype);
+		Object.set__proto__(process, EventEmitter.prototype);
 		process.EventEmitter = EventEmitter; // process.EventEmitter is deprecated
 
 		startup.globalVariables();
@@ -45,6 +45,8 @@ var global;
 		console.log('ext: ' + ext);
 
 		var sd = NativeModule.require('string_decoder');
+
+		NativeModule.require('test_assert');
 
 		process.on('exit', function() {
 			console.log('exiting!!!!!!!!!!!!!!!!!!');

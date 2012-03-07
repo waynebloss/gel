@@ -19,12 +19,6 @@ var process = (function(api) {
 		// TODO: Tell API to call back to process._tickCallback in a tick.
 	};
 
-	Process.prototype.set__proto__ = function(source) {
-		for (var member in source) {
-			this[member] = source[member];
-		}
-	};
-
 	Process.prototype.alert = function(message) {
 		/// <summary>Standard alert function.</summary>
 		api.alert(message);
