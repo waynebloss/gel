@@ -1,3 +1,5 @@
+// DO NOT REDISTRIBUTE WITHOUT COPYRIGHT LICENSE FILE: ../lic/node.txt
+
 // Query String Utilities
 
 var QueryString = exports;

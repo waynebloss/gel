@@ -1,4 +1,5 @@
-﻿
+﻿// DO NOT REDISTRIBUTE WITHOUT COPYRIGHT LICENSE FILE: ../lic/node.txt
+
 var isArray = Array.isArray;
 
 function EventEmitter() { }

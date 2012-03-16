@@ -1,3 +1,4 @@
+// DO NOT REDISTRIBUTE WITHOUT COPYRIGHT LICENSE FILE: ../lic/node.txt
 
 function init(list) {
   list._idleNext = list;

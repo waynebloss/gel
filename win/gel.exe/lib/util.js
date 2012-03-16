@@ -1,4 +1,5 @@
-﻿
+﻿// DO NOT REDISTRIBUTE WITHOUT COPYRIGHT LICENSE FILE: ../lic/node.txt
+
 var formatRegExp = /%[sdj%]/g;
 exports.format = function(f) {
 	if (typeof f !== 'string') {

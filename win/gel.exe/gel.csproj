@@ -118,6 +118,8 @@
     <EmbeddedResource Include="lib\querystring.js" />
     <EmbeddedResource Include="lib\url.js" />
     <EmbeddedResource Include="lib\vm.js" />
+    <None Include="lic\narwhal.txt" />
+    <None Include="lic\node.txt" />
     <Content Include="ref\process.js" />
     <EmbeddedResource Include="native_module.js" />
     <EmbeddedResource Include="console.js" />

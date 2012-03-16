@@ -1,3 +1,4 @@
+// DO NOT REDISTRIBUTE WITHOUT COPYRIGHT LICENSE FILE: ../lic/node.txt
 
 var binding = process.binding('evals');
 

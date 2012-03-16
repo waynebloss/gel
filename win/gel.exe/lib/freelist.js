@@ -1,3 +1,4 @@
+// DO NOT REDISTRIBUTE WITHOUT COPYRIGHT LICENSE FILE: ../lic/node.txt
 
 // This is a free list to avoid creating so many of the same object.
 exports.FreeList = function(name, max, constructor) {
