@@ -74,6 +74,9 @@
     <Compile Include="Scripting\ScriptGlobals.cs" />
     <Compile Include="Scripting\ScriptSource.cs" />
     <Compile Include="StringUtil.cs" />
+    <EmbeddedResource Include="lib\module.js" />
+    <EmbeddedResource Include="lib\os.js" />
+    <EmbeddedResource Include="lib\timers.js" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
