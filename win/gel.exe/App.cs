@@ -100,7 +100,7 @@ namespace Gel
 
 			///// TODO: If get main view from script; pass it to Application.Run().
 			//if (!_exited)
-			//    Application.Run();
+				Application.Run();
 
 			Debug.Print("Exiting.");
 		}

@@ -36,5 +36,9 @@ namespace Gel
 		public string assert { get { return GetCode("assert"); } }
 
 		public string test_assert { get { return GetCode("test_assert"); } }
+
+		public string timers { get { return GetCode("timers"); } }
+
+		public string _linklist { get { return GetCode("_linklist"); } }
 	}
 }

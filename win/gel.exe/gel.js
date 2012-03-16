@@ -7,6 +7,13 @@
 // #include <Gel.natives.js>
 // #include <Gel.console.js>
 // #include <Gel.evals.js>
+// #include <Gel.timer_wrap.js>
+
+function testTimeout()
+{
+	console.log("TIMEOUT!!");
+	process.exit();
+}
 
 var global;
 
@@ -40,19 +47,19 @@ var global;
 
 		startup.printEngineVer();
 
-		var path = NativeModule.require('path');
-		var ext = path.extname('boo/boo/boo.js');
-		console.log('ext: ' + ext);
+//		var path = NativeModule.require('path');
+//		var ext = path.extname('boo/boo/boo.js');
+//		console.log('ext: ' + ext);
 
-		var sd = NativeModule.require('string_decoder');
+		//var sd = NativeModule.require('string_decoder');
 
-		NativeModule.require('test_assert');
+		// HELLO?? NativeModule.require('test_assert');
+
+		setTimeout(testTimeout, 1000);
 
 		process.on('exit', function() {
 			console.log('exiting!!!!!!!!!!!!!!!!!!');
 		});
-
-		process.exit();
 	}
 
 	startup.globalVariables = function() {
@@ -66,24 +73,21 @@ var global;
 	startup.globalTimeouts = function() {
 
 		global.setTimeout = function() {
-			// TODO: Restore when possible:
-			//			var t = NativeModule.require('timers');
-			//			return t.setTimeout.apply(this, arguments);
+			var t = NativeModule.require('timers');
+			console.log("t.setTimeout: " + typeof t.setTimeout);
+			return t.setTimeout.apply(this, arguments);
 		};
 		global.setInterval = function() {
-			// TODO: Restore when possible:
-			//			var t = NativeModule.require('timers');
-			//			return t.setInterval.apply(this, arguments);
+			var t = NativeModule.require('timers');
+			return t.setInterval.apply(this, arguments);
 		};
 		global.clearTimeout = function() {
-			// TODO: Restore when possible:
-			//			var t = NativeModule.require('timers');
-			//			return t.clearTimeout.apply(this, arguments);
+			var t = NativeModule.require('timers');
+			return t.clearTimeout.apply(this, arguments);
 		};
 		global.clearInterval = function() {
-			// TODO: Restore when possible:
-			//			var t = NativeModule.require('timers');
-			//			return t.clearInterval.apply(this, arguments);
+			var t = NativeModule.require('timers');
+			return t.clearInterval.apply(this, arguments);
 		};
 
 	};

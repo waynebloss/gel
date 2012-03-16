@@ -13,6 +13,7 @@ var process = (function(api) {
 		this.argc = api.argc;
 		this.argv = argvFromApi(0, this.argc);
 		this.moduleLoadList = [];
+		this.env = {};
 	}
 
 	Process.prototype._needTickCallback = function() {
