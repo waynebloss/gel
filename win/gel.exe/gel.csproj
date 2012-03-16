@@ -112,6 +112,12 @@
     <EmbeddedResource Include="lib\string_decoder.js" />
     <EmbeddedResource Include="lib\assert.js" />
     <EmbeddedResource Include="lib\test_assert.js" />
+    <EmbeddedResource Include="lib\_linklist.js" />
+    <EmbeddedResource Include="lib\freelist.js" />
+    <EmbeddedResource Include="lib\punycode.js" />
+    <EmbeddedResource Include="lib\querystring.js" />
+    <EmbeddedResource Include="lib\url.js" />
+    <EmbeddedResource Include="lib\vm.js" />
     <Content Include="ref\process.js" />
     <EmbeddedResource Include="native_module.js" />
     <EmbeddedResource Include="console.js" />
