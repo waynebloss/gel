@@ -74,7 +74,6 @@ var global;
 
 		global.setTimeout = function() {
 			var t = NativeModule.require('timers');
-			console.log("t.setTimeout: " + typeof t.setTimeout);
 			return t.setTimeout.apply(this, arguments);
 		};
 		global.setInterval = function() {

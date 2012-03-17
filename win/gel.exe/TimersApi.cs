@@ -15,6 +15,21 @@ namespace Gel
 
 		Dictionary<int, Timer> _winTimer = new Dictionary<int, Timer>();
 
+		Type _timeoutHandlerType;
+		object _timeoutHandler;
+		public object timeoutHandler
+		{
+			get { return _timeoutHandler; }
+			set
+			{
+				_timeoutHandler = value;
+				if (value != null)
+					_timeoutHandlerType = value.GetType();
+				else
+					_timeoutHandlerType = null;
+			}
+		}
+
 		public void close(int id)
 		{
 			Timer winTimer;
@@ -31,7 +46,19 @@ namespace Gel
 			winTimer.Tick += (s, e) =>
 			{
 				// Callback
-				App.Current.Script.Exec("process.binding('timer_wrap').callback(" + id.ToString() + ");");
+				if (_timeoutHandlerType != null)
+				{
+					// Invoke the Jscript (COM) object's default member (specified by the blank string).
+					// For a Jscript function, the default member is the function itself.
+					//
+					// This is what allows us to do:
+					//		process.api('timers').timeoutHandler = function(id) {
+					//			...
+					//		};
+					//
+					_timeoutHandlerType.InvokeMember("", System.Reflection.BindingFlags.InvokeMethod, null,
+						_timeoutHandler, new object[] { id });
+				}
 
 				// Repeat or Stop
 				if (repeatTimeMs > 0)

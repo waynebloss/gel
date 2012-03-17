@@ -3,7 +3,9 @@
 process.binding.set('timer_wrap', (function() {
 	
 	var api = process.api('timers');
+	// counter used to create timer IDs.
 	var count = 0;
+	// map of active Timer objects. Key = id, value = [Timer object].
 	var active = {};
 
 	function Timer() {
@@ -16,6 +18,7 @@ process.binding.set('timer_wrap', (function() {
 	}
 	
 	Timer.prototype.close = function() {
+		delete active[this._id];
 		api.close(this._id);
 	};
 
@@ -38,16 +41,15 @@ process.binding.set('timer_wrap', (function() {
 	Timer.prototype.again = function() {
 		api.again(this._id);
 	};
-	
-	function callback(id) {
+
+	api.timeoutHandler = function(id) {
 		var timer = active[id];
-		delete active[id];
-		timer.ontimeout();
-	}
+		if (timer)
+			timer.ontimeout();
+	};
 
 	return {
-		Timer: Timer,
-		callback: callback
+		Timer: Timer
 	};
 
 })());
