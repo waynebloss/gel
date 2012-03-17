@@ -63,7 +63,8 @@ namespace Gel
 				// Repeat or Stop
 				if (repeatTimeMs > 0)
 				{
-					winTimer.Interval = repeatTimeMs;
+					if (timeMs != repeatTimeMs)
+						winTimer.Interval = repeatTimeMs;
 				}
 				else
 				{

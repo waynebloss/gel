@@ -44,7 +44,7 @@ process.binding.set('timer_wrap', (function() {
 
 	api.timeoutHandler = function(id) {
 		var timer = active[id];
-		if (timer)
+		if (timer && timer.ontimeout)
 			timer.ontimeout();
 	};
 

@@ -55,7 +55,15 @@ var global;
 
 		// HELLO?? NativeModule.require('test_assert');
 
-		setTimeout(testTimeout, 1000);
+		//setTimeout(testTimeout, 1000);
+		var y = 0;
+		var t = setInterval(function() {
+			console.log("setInterval callback.");
+			if (++y > 2) {
+				clearInterval(t);
+				process.exit();
+			}
+		}, 1000);
 
 		process.on('exit', function() {
 			console.log('exiting!!!!!!!!!!!!!!!!!!');
@@ -72,19 +80,19 @@ var global;
 	};
 	startup.globalTimeouts = function() {
 
-		global.setTimeout = function() {
+		global.setTimeout = function(callback, after) {
 			var t = NativeModule.require('timers');
 			return t.setTimeout.apply(this, arguments);
 		};
-		global.setInterval = function() {
+		global.setInterval = function(callback, repeat) {
 			var t = NativeModule.require('timers');
 			return t.setInterval.apply(this, arguments);
 		};
-		global.clearTimeout = function() {
+		global.clearTimeout = function(timer) {
 			var t = NativeModule.require('timers');
 			return t.clearTimeout.apply(this, arguments);
 		};
-		global.clearInterval = function() {
+		global.clearInterval = function(timer) {
 			var t = NativeModule.require('timers');
 			return t.clearInterval.apply(this, arguments);
 		};
