@@ -4,6 +4,7 @@
 // #include <Gel.ddr-ecma5.js>
 // #include <Gel.json2.js>
 // #include <Gel.process.js>
+// #include <Gel.os.js>
 // #include <Gel.natives.js>
 // #include <Gel.console.js>
 // #include <Gel.evals.js>
@@ -68,6 +69,14 @@ var global;
 		process.on('exit', function() {
 			console.log('exiting!!!!!!!!!!!!!!!!!!');
 		});
+
+		var os = NativeModule.require('os');
+		console.log('hostname: ' + os.hostname());
+		console.log('uptime: ' + os.uptime());
+		console.log('totalmem: ' + os.totalmem());
+		console.log('freemem: ' + os.freemem());
+		console.log('loadavg: ' + os.loadavg());
+		console.log('release: ' + os.release());
 	}
 
 	startup.globalVariables = function() {

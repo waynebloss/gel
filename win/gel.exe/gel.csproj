@@ -47,6 +47,7 @@
     <Compile Include="App.cs" />
     <Compile Include="CharUtil.cs" />
     <Compile Include="ComUtil.cs" />
+    <Compile Include="OsApi.cs" />
     <Compile Include="TimersApi.cs" />
     <Compile Include="EvalsApi.cs" />
     <Compile Include="GelArray.cs" />
@@ -125,6 +126,7 @@
     <None Include="lic\narwhal.txt" />
     <None Include="lic\node.txt" />
     <EmbeddedResource Include="timer_wrap.js" />
+    <EmbeddedResource Include="os.js" />
     <Content Include="ref\process.js" />
     <EmbeddedResource Include="native_module.js" />
     <EmbeddedResource Include="console.js" />

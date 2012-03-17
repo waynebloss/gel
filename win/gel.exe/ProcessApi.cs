@@ -23,6 +23,7 @@ namespace Gel
 					new { Key = "natives", Val = (object)new NativesApi() },
 					new { Key = "process", Val = (object)this },
 					new { Key = "timers", Val = (object)new TimersApi() },
+					new { Key = "os", Val = (object)new OsApi() },
 				}
 				.ToDictionary(k => k.Key, v => v.Val);
 		}

@@ -40,5 +40,7 @@ namespace Gel
 		public string timers { get { return GetCode("timers"); } }
 
 		public string _linklist { get { return GetCode("_linklist"); } }
+
+		public string os { get { return GetCode("os"); } }
 	}
 }
