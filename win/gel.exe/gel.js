@@ -8,6 +8,7 @@
 // #include <Gel.natives.js>
 // #include <Gel.console.js>
 // #include <Gel.evals.js>
+// #include <Gel.buffer.js>
 // #include <Gel.timer_wrap.js>
 
 function testTimeout()
@@ -69,6 +70,37 @@ var global;
 		process.on('exit', function() {
 			console.log('exiting!!!!!!!!!!!!!!!!!!');
 		});
+		
+		// Ideas for Buffer class:
+		var arr = [0, 1, 2];
+		arr[3] = 3;
+		console.log('arr has ' + arr.length + ' items.');
+
+		function Buffer(length) {
+
+			// The basica idea here is to pre-fill this array
+			// and tack our custom methods onto this instance
+			// to avoid modifying Array's prototype.
+			for (var i=0; i<length; i++) this.push(-1);
+
+			this.custFn = function() { 
+				return 'Buffer has ' + this.length + ' items.';
+			};
+
+			this.someFn = function() {
+				return 'someFn';
+			};
+		}
+		Buffer.prototype = Array.prototype;
+
+		// Some tests of our Buffer class:
+		var len = 3;
+		var x = new Buffer(len);
+		//for (var i = 0; i < len; i++) x[i] = i;
+		console.log(x.custFn());
+		console.log(x.someFn());
+
+		for (i = 0; i < x.length; i++) console.log(x[i]);
 
 		var os = NativeModule.require('os');
 		console.log('hostname: ' + os.hostname());
