@@ -12,35 +12,27 @@ namespace Gel
 	{
 		internal NativesApi() { }
 
-		string GetCode(string libName)
+		public bool exists(string id)
 		{
-			var filePath = "Gel.lib." + libName + ".js";
-			return ScriptEmbedded.ReadFile(filePath);
+			if (id.StartsWith("test."))
+			{	// Gel.test.testName.js
+				return ScriptSource.GetAssemblyForEmbedded("Gel." + id + ".js") != null;
+			}
+			return ScriptSource.GetAssemblyForEmbedded(LibPath(id)) != null;
 		}
 
-		public bool hasOwnProperty(string id)
+		public string getSource(string id)
 		{
-			return typeof(NativesApi).GetProperty(id) != null;
+			if (id.StartsWith("test."))
+			{	// Gel.test.testName.js
+				return ScriptEmbedded.ReadFile("Gel." + id + ".js");
+			}
+			return ScriptEmbedded.ReadFile(LibPath(id));
 		}
 
-		public string util { get { return GetCode("util"); } }
-
-		public string events { get { return GetCode("events"); } }
-
-		public string stream { get { return GetCode("stream"); } }
-
-		public string path { get { return GetCode("path"); } }
-
-		public string string_decoder { get { return GetCode("string_decoder"); } }
-
-		public string assert { get { return GetCode("assert"); } }
-
-		public string test_assert { get { return GetCode("test_assert"); } }
-
-		public string timers { get { return GetCode("timers"); } }
-
-		public string _linklist { get { return GetCode("_linklist"); } }
-
-		public string os { get { return GetCode("os"); } }
+		static string LibPath(string id)
+		{
+			return "Gel.lib." + id + ".js";
+		}
 	}
 }

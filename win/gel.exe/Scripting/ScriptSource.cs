@@ -21,6 +21,13 @@ namespace Gel.Scripting
 
 	public static class ScriptSource
 	{
+		static ScriptSource()
+		{
+			_assemblyByEmbedPath = new Dictionary<string, Assembly>();
+			_assemblyReg = new List<Assembly>();
+			RegisterAssemblyForEmbedded(typeof(ScriptSource).Assembly);
+		}
+
 		public static IEnumerable<string> AsEnumerableLines(this IScriptSource source)
 		{
 			using (var rdr = source.GetReader())
@@ -42,42 +49,32 @@ namespace Gel.Scripting
 
 		#region Assembly for Embedded
 
-		static Dictionary<string, Assembly> _assemblyByEmbedPath;
+		static readonly Dictionary<string, Assembly> _assemblyByEmbedPath;
+		static readonly List<Assembly> _assemblyReg;
 
 		internal static Assembly GetAssemblyForEmbedded(string path)
 		{
-			if (_assemblyByEmbedPath == null)
-				return typeof(ScriptSource).Assembly;
-
 			Assembly value;
 			if (!_assemblyByEmbedPath.TryGetValue(path, out value))
-				return typeof(ScriptSource).Assembly;
+				return null;
 
 			return value;
 		}
 
-		public static void RegisterAssemblyForEmbedded(Assembly assembly)
+		public static void RegisterAssemblyForEmbedded(Assembly value)
 		{
-			if (_assemblyByEmbedPath == null)
-			{
-				/// Guard against registration of this assembly,
-				/// which will be done automatically below.
-				if (assembly == typeof(ScriptSource).Assembly)
-					return;
-				_assemblyByEmbedPath = new Dictionary<string, Assembly>();
-				/// This assembly is always the first to be registered.
-				RegisterAssemblyForEmbedded(typeof(ScriptSource).Assembly);
-			}
 			/// Guard against double registration.
-			if (_assemblyByEmbedPath.Values.Contains(assembly))
+			if (_assemblyReg.Contains(value))
 				return;
+			/// Register the assembly.
+			_assemblyReg.Add(value);
 			/// Map all of the assembly's resource file paths to the assembly.
 			/// Registrations added later override earlier registrations.
-			foreach (var path in assembly.GetManifestResourceNames())
+			foreach (var path in value.GetManifestResourceNames())
 			{
-				System.Diagnostics.Debug.Print("Registering embedded file {0} to assembly {1}.", path, assembly.GetName().Name);
+				System.Diagnostics.Debug.Print("RegisterAssemblyForEmbedded assm: {0}, path: {1}.", value.GetName().Name, path);
 
-				_assemblyByEmbedPath[path] = assembly;
+				_assemblyByEmbedPath[path] = value;
 			}
 		}
 
@@ -127,6 +124,7 @@ namespace Gel.Scripting
 		/// <returns></returns>
 		public static string ReadFile(string path)
 		{
+			System.Diagnostics.Debug.Print("READING FILE: " + path);
 			return ReadFile(typeof(ScriptEmbedded).Assembly, path);
 		}
 		/// <summary>

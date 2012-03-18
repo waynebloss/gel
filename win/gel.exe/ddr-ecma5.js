@@ -1018,5 +1018,12 @@
 			target[member] = source[member];
 		}
 	};
+
+	Array.prototype.init = function(value, len)
+	{
+		if(typeof(len)=='undefined') { len = this.length; }
+		while (len--) { this.push(value); }
+		return this;
+	}
 	
 })(this);

@@ -46,6 +46,7 @@ process.binding.set('buffer', (function() {
 	function SlowBuffer() {
 		
 	}
+
 	// ## Static methods
 
 	SlowBuffer.byteLength = function(value, encoding) {
@@ -57,8 +58,8 @@ process.binding.set('buffer', (function() {
 		return api.byteLength(value, e);
 	};
 
-	SlowBuffer.makeFastBuffer = function() {
-
+	SlowBuffer.makeFastBuffer = function(buffer, fastBuffer, offset, length) {
+		
 	};
 
 	// ## Instance methods

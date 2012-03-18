@@ -47,6 +47,7 @@
     <Compile Include="App.cs" />
     <Compile Include="CharUtil.cs" />
     <Compile Include="ComUtil.cs" />
+    <Compile Include="BufferApi.cs" />
     <Compile Include="OsApi.cs" />
     <Compile Include="TimersApi.cs" />
     <Compile Include="EvalsApi.cs" />
@@ -106,6 +107,12 @@
     <EmbeddedResource Include="process.js" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="test\index.js" />
+    <EmbeddedResource Include="test\path.js" />
+    <EmbeddedResource Include="test\string_decoder.js" />
+    <EmbeddedResource Include="test\timers.js" />
+    <EmbeddedResource Include="test\os.js" />
+    <EmbeddedResource Include="test\buffer.js" />
     <EmbeddedResource Include="evals.js" />
     <EmbeddedResource Include="lib\util.js" />
     <EmbeddedResource Include="natives.js" />
@@ -116,7 +123,7 @@
     <EmbeddedResource Include="lib\path.js" />
     <EmbeddedResource Include="lib\string_decoder.js" />
     <EmbeddedResource Include="lib\assert.js" />
-    <EmbeddedResource Include="lib\test_assert.js" />
+    <EmbeddedResource Include="test\assert.js" />
     <EmbeddedResource Include="buffer.js" />
     <EmbeddedResource Include="lib\_linklist.js" />
     <EmbeddedResource Include="lib\freelist.js" />
@@ -128,6 +135,9 @@
     <None Include="lic\node.txt" />
     <EmbeddedResource Include="timer_wrap.js" />
     <EmbeddedResource Include="os.js" />
+    <EmbeddedResource Include="lib\buffer.js" />
+    <EmbeddedResource Include="lib\buffer_ieee754.js" />
+    <None Include="lic\Fair_Oaks_Labs.txt" />
     <Content Include="ref\process.js" />
     <EmbeddedResource Include="native_module.js" />
     <EmbeddedResource Include="console.js" />

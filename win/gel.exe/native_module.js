@@ -47,11 +47,11 @@ NativeModule.getCached = function(id) {
 };
 
 NativeModule.exists = function(id) {
-	return NativeModule._source.hasOwnProperty(id);
+	return NativeModule._source.exists(id);
 };
 
 NativeModule.getSource = function(id) {
-	return NativeModule._source[id];
+	return NativeModule._source.getSource(id);
 };
 
 NativeModule.wrap = function(script) {
