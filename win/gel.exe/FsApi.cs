@@ -16,6 +16,11 @@ namespace Gel
 			return Directory.Exists(path);
 		}
 
+		public bool pathExists(string path)
+		{
+			return File.Exists(path) || Directory.Exists(path);
+		}
+
 		public string readFileSync(string filename, string encoding)
 		{
 			Debug.Assert(encoding == "utf8", "Unsupported Encoding: '" + encoding + "'.");
