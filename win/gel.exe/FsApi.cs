@@ -11,25 +11,26 @@ namespace Gel
 	[ComVisible(true)]
 	public class FsApi
 	{
-		public bool IsDirectory(string path)
+		public bool isDirectory(string path)
 		{
+			Debug.Print("isDirectory: " + path);
 			return Directory.Exists(path);
 		}
 
 		public bool pathExists(string path)
 		{
+			Debug.Print("pathExists: " + path);
 			return File.Exists(path) || Directory.Exists(path);
 		}
 
 		public string readFileSync(string filename, string encoding)
 		{
+			Debug.Print("readFileSync: " + filename);
 			Debug.Assert(encoding == "utf8", "Unsupported Encoding: '" + encoding + "'.");
 
 			return
-@"exports.exec = function()
-{
-	console.log('Hello from " + filename + @"');
-};";
+@"console.log('Hello from " + filename.Replace("\\", "\\\\") + @"');
+process.exit();";
 		}
 	}
 }

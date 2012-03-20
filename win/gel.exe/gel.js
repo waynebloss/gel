@@ -47,12 +47,82 @@ var global;
 		});
 
 		//NativeModule.require('test.assert');
-		var test = NativeModule.require('test.index')
-		test.exec('os');
-		test.exec('path');
-		test.exec('buffer');
-		test.exec('timers');
-		test.exec('process');
+//		var test = NativeModule.require('test.index')
+//		test.exec('os');
+//		test.exec('path');
+//		test.exec('buffer');
+//		test.exec('timers');
+//		test.exec('process');
+		
+//		if (NativeModule.exists('_third_party_main')) {
+//			// To allow people to extend Node in different ways, this hook allows
+//			// one to drop a file lib/_third_party_main.js into the build
+//			// directory which will be executed instead of Node's normal loading.
+//			process.nextTick(function() {
+//			NativeModule.require('_third_party_main');
+//			});
+
+//		} else if (process.argv[1] == 'debug') {
+//			// Start the debugger agent
+//			var d = NativeModule.require('_debugger');
+//			d.start();
+
+//		} else if (process._eval != null) {
+//			// User passed '-e' or '--eval' arguments to Node.
+//			var Module = NativeModule.require('module');
+//			var path = NativeModule.require('path');
+//			var cwd = process.cwd();
+
+//			var module = new Module('eval');
+//			module.filename = path.join(cwd, 'eval');
+//			module.paths = Module._nodeModulePaths(cwd);
+//			var result = module._compile('return eval(process._eval)', 'eval');
+//			if (process._print_eval) console.log(result);
+//		} else 
+		process.argv[1] = 'testy.js';
+		process.cwd = function() { return "C:\\lab\\gel\\src\\win\\gel.exe\\bin\\Debug"; }
+		if (process.argv[1]) {
+			// make process.argv[1] into a full path
+			var path = NativeModule.require('path');
+			process.argv[1] = path.resolve(process.argv[1]);
+
+			// If this is a worker in cluster mode, start up the communiction
+			// channel.
+//			if (process.env.NODE_UNIQUE_ID) {
+//			var cluster = NativeModule.require('cluster');
+//			cluster._setupWorker();
+//			}
+
+			var Module = NativeModule.require('module');
+			// REMOVEME: nextTick should not be necessary. This hack to get
+			// test/simple/test-exception-handler2.js working.
+			// Main entry point into most programs:
+			process.nextTick(Module.runMain);
+
+		}
+//		else {
+//			var Module = NativeModule.require('module');
+
+//			// If stdin is a TTY.
+//			if (NativeModule.require('tty').isatty(0)) {
+//			// REPL
+//			var repl = Module.requireRepl().start('> ', null, null, true);
+
+//			} else {
+//			// Read all of stdin - execute it.
+//			process.stdin.resume();
+//			process.stdin.setEncoding('utf8');
+
+//			var code = '';
+//			process.stdin.on('data', function(d) {
+//				code += d;
+//			});
+
+//			process.stdin.on('end', function() {
+//				new Module()._compile(code, '[stdin]');
+//			});
+//			}
+//		}
 	}
 
 	startup.globalVariables = function() {

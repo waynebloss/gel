@@ -357,11 +357,11 @@ Module.prototype._compile = function(content, filename) {
     return Module._resolveFilename(request, self);
   };
 
-  Object.defineProperty(require, 'paths', { get: function() {
-    throw new Error('require.paths is removed. Use ' +
-                    'node_modules folders, or the NODE_PATH ' +
-                    'environment variable instead.');
-  }});
+//  Object.defineProperty(require, 'paths', { get: function() {
+//    throw new Error('require.paths is removed. Use ' +
+//                    'node_modules folders, or the NODE_PATH ' +
+//                    'environment variable instead.');
+//  }});
 
   require.main = process.mainModule;
 

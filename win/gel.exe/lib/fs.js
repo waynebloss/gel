@@ -5,7 +5,7 @@ var pathModule = require('path');
 fs.statSync = function(path) {
 	var isDir = api.IsDirectory(path);
 	return {
-		IsDirectory: function() {
+		isDirectory: function() {
 			return isDir;
 		}
 	};
