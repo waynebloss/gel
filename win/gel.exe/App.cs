@@ -48,13 +48,13 @@ namespace Gel
 
 		#endregion
 
-		//bool _exited;
+		bool _exited;
 
 		public void Exit()
 		{
 			Application.Exit();
 
-			//_exited = true;
+			_exited = true;
 		}
 
 		Uri GetCoreScriptUri()
@@ -86,6 +86,8 @@ namespace Gel
 
 		public JsEngine Script { get; private set; }
 
+		internal bool needTickCallback;
+
 		public void Run()
 		{
 			Debug.Print("Starting up.");
@@ -98,8 +100,14 @@ namespace Gel
 
 			Script.Exec(corePreprocSrc);
 
-			///// TODO: If get main view from script; pass it to Application.Run().
-			//if (!_exited)
+			while (needTickCallback)
+			{
+				_processApi.doTickCallback(null);
+			}
+
+			/// TODO: If get main view from script; pass it to Application.Run().
+
+			if (!_exited)
 				Application.Run();
 
 			Debug.Print("Exiting.");

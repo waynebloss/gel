@@ -108,6 +108,7 @@
     <EmbeddedResource Include="process.js" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="test\process.js" />
     <EmbeddedResource Include="test\index.js" />
     <EmbeddedResource Include="test\path.js" />
     <EmbeddedResource Include="test\string_decoder.js" />

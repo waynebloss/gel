@@ -14,11 +14,9 @@ var process = (function(api) {
 		this.argv = argvFromApi(0, this.argc);
 		this.moduleLoadList = [];
 		this.env = {};
+		this.platform = 'win32';
+		this.mainModule = null;
 	}
-
-	Process.prototype._needTickCallback = function() {
-		// TODO: Tell API to call back to process._tickCallback in a tick.
-	};
 
 	Process.prototype.alert = function(message) {
 		/// <summary>Standard alert function.</summary>
@@ -50,6 +48,34 @@ var process = (function(api) {
 		}
 		return argv;
 	}
+
+	var nextTickQueue = [];
+
+    api.tickCallback = function() {
+      var l = nextTickQueue.length;
+      if (l === 0) return;
+
+      var q = nextTickQueue;
+      nextTickQueue = [];
+
+      try {
+        for (var i = 0; i < l; i++) q[i]();
+      }
+      catch (e) {
+        if (i + 1 < l) {
+          nextTickQueue = q.slice(i + 1).concat(nextTickQueue);
+        }
+        if (nextTickQueue.length) {
+          api.needTickCallback();
+        }
+        throw e; // process.nextTick error, or 'error' event on first tick
+      }
+    };
+
+	Process.prototype.nextTick = function(callback) {
+		nextTickQueue.push(callback);
+		api.needTickCallback();
+	};
 
 	return new Process();
 

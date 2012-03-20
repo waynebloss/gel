@@ -27,7 +27,6 @@ var global;
 		startup.globalConsole();
 
 		startup.processAssert();
-		startup.processNextTick();
 
 		// temp stubs for stdio until startup.processStdio is implemented.
 		process.stdout = {write:console.log};
@@ -53,6 +52,7 @@ var global;
 		test.exec('path');
 		test.exec('buffer');
 		test.exec('timers');
+		test.exec('process');
 	}
 
 	startup.globalVariables = function() {
@@ -105,35 +105,6 @@ var global;
 		// Similarly for debug().
 		assert = process.assert = function(x, msg) {
 			if (!x) throw new Error(msg || 'assertion error');
-		};
-	};
-	startup.processNextTick = function() {
-		var nextTickQueue = [];
-
-		process._tickCallback = function() {
-			var l = nextTickQueue.length;
-			if (l === 0) return;
-
-			var q = nextTickQueue;
-			nextTickQueue = [];
-
-			try {
-				for (var i = 0; i < l; i++) q[i]();
-			}
-			catch (e) {
-				if (i + 1 < l) {
-					nextTickQueue = q.slice(i + 1).concat(nextTickQueue);
-				}
-				if (nextTickQueue.length) {
-					process._needTickCallback();
-				}
-				throw e; // process.nextTick error, or 'error' event on first tick
-			}
-		};
-
-		process.nextTick = function(callback) {
-			nextTickQueue.push(callback);
-			process._needTickCallback();
 		};
 	};
 
