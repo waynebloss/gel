@@ -79,8 +79,7 @@ var global;
 //			var result = module._compile('return eval(process._eval)', 'eval');
 //			if (process._print_eval) console.log(result);
 //		} else 
-		process.argv[1] = 'testy.js';
-		process.cwd = function() { return "C:\\lab\\gel\\src\\win\\gel.exe\\bin\\Debug"; }
+		//process.argv[1] = 'testy.js';
 		if (process.argv[1]) {
 			// make process.argv[1] into a full path
 			var path = NativeModule.require('path');

@@ -151,5 +151,10 @@ namespace Gel
 					_tickCallback, null);
 			}
 		}
+
+		public string cwd()
+		{
+			return System.IO.Directory.GetCurrentDirectory();
+		}
 	}
 }

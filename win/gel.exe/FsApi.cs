@@ -28,9 +28,7 @@ namespace Gel
 			Debug.Print("readFileSync: " + filename);
 			Debug.Assert(encoding == "utf8", "Unsupported Encoding: '" + encoding + "'.");
 
-			return
-@"console.log('Hello from " + filename.Replace("\\", "\\\\") + @"');
-process.exit();";
+			return File.ReadAllText(filename, Encoding.UTF8);
 		}
 	}
 }

@@ -31,6 +31,10 @@ var process = (function(api) {
 		_binding[name] = value;
 	}
 
+	Process.prototype.cwd = function() {
+		return api.cwd();
+	}
+
 	Process.prototype.exit = function() {
 		this.emit('exit');
 		api.exit();
