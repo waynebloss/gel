@@ -16,6 +16,8 @@ var process = (function(api) {
 		this.env = {};
 		this.platform = 'win32';
 		this.mainModule = null;
+		this._eval = api.evalString;
+		this._print_eval = api.printEval;
 	}
 
 	Process.prototype.alert = function(message) {

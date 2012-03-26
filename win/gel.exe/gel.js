@@ -54,33 +54,32 @@ var global;
 //		test.exec('timers');
 //		test.exec('process');
 		
-//		if (NativeModule.exists('_third_party_main')) {
-//			// To allow people to extend Node in different ways, this hook allows
-//			// one to drop a file lib/_third_party_main.js into the build
-//			// directory which will be executed instead of Node's normal loading.
-//			process.nextTick(function() {
-//			NativeModule.require('_third_party_main');
-//			});
+		if (NativeModule.exists('_third_party_main')) {
+			// To allow people to extend Node in different ways, this hook allows
+			// one to drop a file lib/_third_party_main.js into the build
+			// directory which will be executed instead of Node's normal loading.
+			process.nextTick(function() {
+				NativeModule.require('_third_party_main');
+			});
 
 //		} else if (process.argv[1] == 'debug') {
 //			// Start the debugger agent
 //			var d = NativeModule.require('_debugger');
 //			d.start();
 
-//		} else if (process._eval != null) {
-//			// User passed '-e' or '--eval' arguments to Node.
-//			var Module = NativeModule.require('module');
-//			var path = NativeModule.require('path');
-//			var cwd = process.cwd();
+		} else if (process._eval != null) {
+			// User passed '-e' or '--eval' arguments to Node.
+			var Module = NativeModule.require('module');
+			var path = NativeModule.require('path');
+			var cwd = process.cwd();
 
-//			var module = new Module('eval');
-//			module.filename = path.join(cwd, 'eval');
-//			module.paths = Module._nodeModulePaths(cwd);
-//			var result = module._compile('return eval(process._eval)', 'eval');
-//			if (process._print_eval) console.log(result);
-//		} else 
-		//process.argv[1] = 'testy.js';
-		if (process.argv[1]) {
+			var module = new Module('eval');
+			module.filename = path.join(cwd, 'eval');
+			module.paths = Module._nodeModulePaths(cwd);
+			var result = module._compile('return eval(process._eval)', 'eval');
+			if (process._print_eval) console.log(result);
+
+		} else if (process.argv[1]) {
 			// make process.argv[1] into a full path
 			var path = NativeModule.require('path');
 			process.argv[1] = path.resolve(process.argv[1]);

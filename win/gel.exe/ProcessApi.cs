@@ -15,7 +15,8 @@ namespace Gel
 	{
 		internal ProcessApi()
 		{
-			_argv = InitArgs();
+			_argv = InitArgs(out _evalString, out _printEval);
+			_isEval = _evalString != null;
 			_api = 
 				new [] {
 					new { Key = "console", Val = (object)new ConsoleApi() },
@@ -61,10 +62,33 @@ namespace Gel
 		/// Instead of making our scripts figure this out, we just replace the first argument with
 		/// the full path to the entry assembly right here.
 		/// </remarks>
-		static string[] InitArgs()
+		static string[] InitArgs(out string evalStr, out bool printEval)
 		{
+			evalStr = null;
+			printEval = false;
+
 			var argv = Environment.GetCommandLineArgs();
 			argv[0] = System.Reflection.Assembly.GetEntryAssembly().Location;
+			for (int i = 0; i < argv.Length; i++)
+			{
+				var arg = argv[i];
+				if (arg == "--eval" || arg == "-e" || arg == "-pe")
+				{
+					if (argv.Length <= i + 1)
+						throw new ArgumentException("--eval, -e or -pe requires an argument.");
+					if (arg[1] == 'p')
+						printEval = true;
+
+					for (int j = i + 1; j < argv.Length; j++)
+						evalStr = evalStr + argv[j] + " ";
+
+					argv = argv.Take(i + 1).ToArray();
+
+					Debug.Print("Evaling: " + evalStr);
+
+					break;
+				}
+			}
 			return argv;
 		}
 
@@ -156,5 +180,14 @@ namespace Gel
 		{
 			return System.IO.Directory.GetCurrentDirectory();
 		}
+
+		readonly bool _printEval;
+		public bool printEval { get { return _printEval; } }
+
+		readonly bool _isEval;
+		public bool isEval { get { return _isEval; } }
+
+		readonly string _evalString;
+		public string evalString { get { return _evalString; } }
 	}
 }
