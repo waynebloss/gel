@@ -24,35 +24,11 @@ var global;
 
 		startup.globalVariables();
 		startup.globalTimeouts();
-		startup.globalConsole();
 
 		startup.processAssert();
-
-		// temp stubs for stdio until startup.processStdio is implemented.
-		process.stdout = {write:console.log};
-		process.stderr = {write:console.log};
-
-//		startup.processStdio();
-//		startup.processKillAndExit();
-//		startup.processSignalHandlers();
-
-//		startup.processChannel();
-
-//		startup.resolveArgv0();
+		startup.processStdio();
 
 		startup.printEngineVer();
-
-		process.on('exit', function() {
-			console.log('exiting!!!!!!!!!!!!!!!!!!');
-		});
-
-		//NativeModule.require('test.assert');
-//		var test = NativeModule.require('test.index')
-//		test.exec('os');
-//		test.exec('path');
-//		test.exec('buffer');
-//		test.exec('timers');
-//		test.exec('process');
 		
 		if (NativeModule.exists('_third_party_main')) {
 			// To allow people to extend Node in different ways, this hook allows
@@ -61,11 +37,6 @@ var global;
 			process.nextTick(function() {
 				NativeModule.require('_third_party_main');
 			});
-
-//		} else if (process.argv[1] == 'debug') {
-//			// Start the debugger agent
-//			var d = NativeModule.require('_debugger');
-//			d.start();
 
 		} else if (process._eval != null) {
 			// User passed '-e' or '--eval' arguments to Node.
@@ -84,43 +55,12 @@ var global;
 			var path = NativeModule.require('path');
 			process.argv[1] = path.resolve(process.argv[1]);
 
-			// If this is a worker in cluster mode, start up the communiction
-			// channel.
-//			if (process.env.NODE_UNIQUE_ID) {
-//			var cluster = NativeModule.require('cluster');
-//			cluster._setupWorker();
-//			}
-
 			var Module = NativeModule.require('module');
 			// REMOVEME: nextTick should not be necessary. This hack to get
 			// test/simple/test-exception-handler2.js working.
 			// Main entry point into most programs:
 			process.nextTick(Module.runMain);
-
 		}
-//		else {
-//			var Module = NativeModule.require('module');
-
-//			// If stdin is a TTY.
-//			if (NativeModule.require('tty').isatty(0)) {
-//			// REPL
-//			var repl = Module.requireRepl().start('> ', null, null, true);
-
-//			} else {
-//			// Read all of stdin - execute it.
-//			process.stdin.resume();
-//			process.stdin.setEncoding('utf8');
-
-//			var code = '';
-//			process.stdin.on('data', function(d) {
-//				code += d;
-//			});
-
-//			process.stdin.on('end', function() {
-//				new Module()._compile(code, '[stdin]');
-//			});
-//			}
-//		}
 	}
 
 	startup.globalVariables = function() {
@@ -131,6 +71,7 @@ var global;
 		// TODO: Restore when possible:
 		//		global.Buffer = NativeModule.require('buffer').Buffer;
 	};
+
 	startup.globalTimeouts = function() {
 
 		global.setTimeout = function(callback, after) {
@@ -151,21 +92,7 @@ var global;
 		};
 
 	};
-	startup.globalConsole = function() {
-		// The following commented-out code is not necessary:
-		//global.__defineGetter__('console', function() {
-		//  return NativeModule.require('console');
-		//});
-	};
-
-	startup._lazyConstants = null;
-	startup.lazyConstants = function() {
-		if (!startup._lazyConstants) {
-			startup._lazyConstants = process.binding('constants');
-		}
-		return startup._lazyConstants;
-	};
-
+	
 	var assert;
 	startup.processAssert = function() {
 		// Note that calls to assert() are pre-processed out by JS2C for the
@@ -174,6 +101,12 @@ var global;
 		assert = process.assert = function(x, msg) {
 			if (!x) throw new Error(msg || 'assertion error');
 		};
+	};
+
+	startup.processStdio = function() {
+		// Redirect commonly used stdio functionality to console.
+		process.stdout = {write:console.log};
+		process.stderr = {write:console.log};
 	};
 
 	startup.printEngineVer = function() {
