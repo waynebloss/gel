@@ -1,19 +1,26 @@
 ﻿/// <reference path="ref/process.js"/>
 
-exports.exec = function() {
-	//setTimeout(testTimeout, 1000);
-	var y = 0;
-	var t = setInterval(function() {
-		console.log("setInterval callback.");
-		if (++y > 2) {
-			clearInterval(t);
-			process.exit();
-		}
-	}, 1000);
+var _testCompletedFn;
+
+exports.exec = function(testCompletedFn) {
+	_testCompletedFn = testCompletedFn;
+
+	setTimeout(testTimeout, 1000);
 };
 
-function testTimeout()
-{
-	console.log("TIMEOUT!!");
-	process.exit();
+var _intervalCount = 0;
+var _intervalTimer;
+
+function testInterval() {
+	console.log("setInterval callback.");
+	if (++_intervalCount > 2) {
+		clearInterval(_intervalTimer);
+		_testCompletedFn();
+	}
+}
+
+function testTimeout() {
+	console.log("setTimeout callback.");
+	
+	_intervalTimer = setInterval(testInterval, 1000);
 }

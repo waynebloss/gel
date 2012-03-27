@@ -1,7 +1,8 @@
 ﻿/// <reference path="ref/process.js"/>
 
-exports.exec = function() {
+exports.exec = function(testCompletedFn) {
 	process.nextTick(function() {
-		process.exit();
+		console.log('process.nextTick callback.');
+		testCompletedFn();
 	});
 };
