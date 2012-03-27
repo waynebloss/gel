@@ -1,4 +1,4 @@
-﻿// DO NOT REDISTRIBUTE WITHOUT COPYRIGHT LICENSE FILE: ../lic/node.txt
+﻿// COPYRIGHT AND (MIT) LICENSE APPLY. SEE FILE: ../lic/node.txt
 
 var isWindows = process.platform === 'win32';
 //var _deprecationWarning = require('util')._deprecationWarning; // unused.

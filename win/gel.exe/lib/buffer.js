@@ -1,4 +1,4 @@
-// DO NOT REDISTRIBUTE WITHOUT COPYRIGHT LICENSE FILE: ../lic/node.txt
+// COPYRIGHT AND (MIT) LICENSE APPLY. SEE FILE: ../lic/node.txt
 
 var SlowBuffer = process.binding('buffer').SlowBuffer;
 var assert = require('assert');

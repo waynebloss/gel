@@ -1,4 +1,4 @@
-// DO NOT REDISTRIBUTE WITHOUT COPYRIGHT LICENSE FILE: ../lic/node.txt
+// COPYRIGHT AND (MIT) LICENSE APPLY. SEE FILE: ../lic/node.txt
 
 var Timer = process.binding('timer_wrap').Timer;
 var L = require('_linklist');

@@ -1,8 +1,8 @@
-﻿// http://wiki.commonjs.org/wiki/Unit_Testing/1.0
+﻿// COPYRIGHT AND (MIT) LICENSE APPLY. SEE FILE: ../lic/narwhal.txt
+//
+// http://wiki.commonjs.org/wiki/Unit_Testing/1.0
 //
 // THIS IS NOT TESTED NOR LIKELY TO WORK OUTSIDE V8!
-//
-// DO NOT REDISTRIBUTE WITHOUT COPYRIGHT LICENSE FILE: ../lic/narwhal.txt
 
 // UTILITY
 var util = require('util');

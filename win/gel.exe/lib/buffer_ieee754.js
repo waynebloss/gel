@@ -1,5 +1,4 @@
-// DO NOT REDISTRIBUTE WITHOUT COPYRIGHT LICENSE FILE: ../lic/Fair_Oaks.txt
-//
+// COPYRIGHT AND (MIT) LICENSE APPLY. SEE FILE: ../lic/Fair_Oaks.txt
 //
 // Modifications to writeIEEE754 to support negative zeroes made by Brian White
 

@@ -1,4 +1,4 @@
-Copyright Joyent, Inc. and other Node contributors.
+Copyrighted (c) Wayne Bloss and other Gel contributors.
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the
