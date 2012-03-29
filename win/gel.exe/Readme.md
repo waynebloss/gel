@@ -6,7 +6,7 @@
 
 - Open gel-win-vs2010.sln
 - Open Properties of the gel.exe project.
-- Change Debug -> Command line arguments to: ../../test/index.js
+- Change Debug -> Command line arguments to: `../../test/index.js`
 - Set gel.exe as the Startup Project.
 - Execute gel.exe in debug mode.
 
