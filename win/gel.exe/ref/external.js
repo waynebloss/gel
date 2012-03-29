@@ -53,15 +53,6 @@ var external = (function() {
 				return {
 					util: "// util source."
 				};
-			case 'buffer':
-				return {
-					byteLength: function(value, encodingIntEnum) {
-						/// <summary>Returns the length of the given string value.</summary>
-						/// <param name="value">The value to get the length of.</param>
-						/// <param name="encodingIntEnum">Integer value of the encoding enum.</param>
-						return 0;
-					}
-				};
 			default:
 				return {};
 		}

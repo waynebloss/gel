@@ -8,7 +8,6 @@
 // #include <Gel.natives.js>
 // #include <Gel.console.js>
 // #include <Gel.evals.js>
-// #include <Gel.buffer.js>
 // #include <Gel.timer_wrap.js>
 
 var global;
