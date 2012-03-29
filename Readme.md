@@ -6,6 +6,8 @@
 
 *Currently only an early, alpha grade, Windows protoype built with .NET 3.5 and WinForms exists.*
 
+See [win/gel.exe/Readme.md](win/gel.exe/Readme.md) for notes on running the prototype.
+
 ## Introduction
 
 Gel.js (or just Gel) is meant to provide a quick and easy way to create software using Javascript and native software components.
