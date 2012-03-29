@@ -4,7 +4,7 @@
 
 ## Status
 
-*An early, alpha grade, Windows protoype built with .NET 3.5 and WinForms exists.*
+*Currently only an early, alpha grade, Windows protoype built with .NET 3.5 and WinForms exists.*
 
 ## Introduction
 
@@ -12,7 +12,7 @@ Gel.js (or just Gel) is meant to provide a quick and easy way to create software
 
 Gel is based on Node.js. It is an implementation of the Node.js module loading system and some of the core Node.js modules and globals such as `process` and `console`. With that basic system in place, other modules can be built to allow Javascript to create and interact with native software components and GUI elements.
 
-Gel will not bound to a single Javascript runtime engine. Ideally, it will run on the native Javascript engine of whatever OS it targets. It will be usable independently, but will also be able to coordinate with an external Javascript engine/child-process such as Node or Rhino.
+Gel will not be bound to a single Javascript runtime engine. Ideally, it will run on the native Javascript engine of whatever OS it targets. It will be usable independently, but will also be able to coordinate with an external Javascript engine/child-process such as Node or Rhino.
 
 ## Roadmap
 
@@ -32,9 +32,9 @@ Future:
 
 ## Status Detail
 
-Gel has barely been started and the first and only implementation is nothing more than a prototype. The module loading system and many of the modules listed below where copied wholesale from Node.js. Nothing has been tested very rigorously, but since I was able to copy much of the Javascript code from Node.js I believe that what has been done so far is fairly solid.
+Gel has barely been started and the first and only implementation is nothing more than a prototype. The module loading system and many of the modules listed below where copied wholesale from Node.js. Nothing has been tested very rigorously, but since I was able to copy much of the Javascript code from Node.js, I believe that what has been done so far is fairly solid.
 
-Development of User Interface APIs has not even begun. The basic "canvas" of this project has been created (the module system and the core libs) and that's it as of this writing.
+Development of User Interface APIs has not even begun. Only the most basic foundation of the project has been laid as of this writing.
 
 ### Node.js Compatibility Status
 
@@ -87,7 +87,7 @@ If developers are forced to put a three paragraph license at the top of every co
 
 Here is an example:
 
-// COPYRIGHT AND (MIT) LICENSE APPLY. SEE FILE: ../lic/node.txt
+// COPYRIGHT AND (MIT) LICENSE APPLY. SEE FILE: ../lic/gel.txt
 
 Thank You.
 
