@@ -23,9 +23,9 @@ exec('assert');
 exec('buffer');
 exec('os');
 exec('path');
+exec('string_decoder');
+exec('test_module');
 exec('process', function() {
-	exec('string_decoder');
-	exec('test_module');
 	exec('timers', function() {
 		process.exit();
 	});
