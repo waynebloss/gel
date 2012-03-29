@@ -77,6 +77,7 @@
     <Compile Include="Scripting\ScriptGlobals.cs" />
     <Compile Include="Scripting\ScriptSource.cs" />
     <Compile Include="StringUtil.cs" />
+    <Compile Include="ViewApi.cs" />
     <EmbeddedResource Include="lib\module.js" />
     <EmbeddedResource Include="lib\os.js" />
     <EmbeddedResource Include="lib\timers.js" />
@@ -107,6 +108,8 @@
     <EmbeddedResource Include="process.js" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="lib\view.js" />
+    <EmbeddedResource Include="test\view.js" />
     <Content Include="test\test_module.js" />
     <Content Include="test\test_module_AA.js" />
     <EmbeddedResource Include="test\process.js" />

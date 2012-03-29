@@ -23,8 +23,13 @@ exec('assert');
 exec('os');
 exec('path');
 exec('test_module');
-exec('process', function() {
-	exec('timers', function() {
+
+// Async tests. One at a time for now.
+
+//exec('process',
+//exec('timers',
+exec('view', 
+	function() {
 		process.exit();
-	});
-});
+	}
+);
