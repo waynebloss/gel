@@ -151,6 +151,12 @@ Module._findPath = function(request, paths) {
     return Module._pathCache[cacheKey];
   }
 
+  // NOTE: Checking if request is an absolute path.
+  if (fs.exists(request)) {
+	Module._pathCache[cacheKey] = request;
+	return request;
+  }
+
   // For each path
   for (var i = 0, PL = paths.length; i < PL; i++) {
     var basePath = path.resolve(paths[i], request);
@@ -309,7 +315,7 @@ Module._resolveFilename = function(request, parent) {
         ' in ' + JSON.stringify(paths));
 
 // TODO: Fix Module_findPath. It returns false for the given absolute path.
-  var filename = id; // Module._findPath(request, paths);
+  var filename = Module._findPath(request, paths);
   if (!filename) {
     var err = new Error("Cannot find module '" + request + "'");
     err.code = 'MODULE_NOT_FOUND';
@@ -464,7 +470,7 @@ Module.runMain = function() {
 };
 
 Module._initPaths = function() {
-  var paths = [path.resolve(process.execPath, '..', '..', 'lib', 'node')];
+  var paths = [path.resolve(process.execPath, '..', '..', 'lib')]; //, 'node')];
 
   if (process.env['HOME']) {
     paths.unshift(path.resolve(process.env['HOME'], '.node_libraries'));
