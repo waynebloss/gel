@@ -1,12 +1,12 @@
 ﻿/// <reference path="ref/process.js"/>
 /// <reference path="console.js"/>
 
-// #include <Gel.process.js>
-// #include <Gel.os.js>
-// #include <Gel.natives.js>
-// #include <Gel.console.js>
-// #include <Gel.evals.js>
-// #include <Gel.timer_wrap.js>
+// # include <Gel.process.js>
+// # include <Gel.os.js>
+// # include <Gel.natives.js>
+// # include <Gel.console.js>
+// # include <Gel.evals.js>
+// # include <Gel.timer_wrap.js>
 
 var global;
 

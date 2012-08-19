@@ -96,9 +96,21 @@ namespace Gel
 			Script = new JsEngine()
 				.SetNamedItem("external", _processApi);
 
-			var corePreprocSrc = JsEngine.PreprocessEmbedded("Gel.gel.js");
+			var resPaths = new string[]{
+				"Gel.process.js",
+				"Gel.os.js",
+				"Gel.natives.js",
+				"Gel.console.js",
+				"Gel.evals.js",
+				"Gel.timer_wrap.js"
+			};
 
-			Script.Exec(corePreprocSrc);
+			foreach (var resPath in resPaths)
+			{
+				Script.Exec(JsEngine.PreprocessEmbedded(resPath));
+			}
+
+			Script.Exec(JsEngine.PreprocessEmbedded("Gel.gel.js"));
 
 			while (needTickCallback)
 			{
