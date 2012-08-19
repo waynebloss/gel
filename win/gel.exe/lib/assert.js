@@ -69,7 +69,7 @@ assert.AssertionError.prototype.toString = function() {
 
 // assert.AssertionError instanceof Error
 
-Object.set__proto__(assert.AssertionError, Error.prototype);
+assert.AssertionError.__proto__ = Error.prototype;
 
 // At present only the three keys mentioned above are used and
 // understood by the spec. Implementations or sub modules can pass

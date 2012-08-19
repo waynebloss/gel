@@ -17,6 +17,12 @@ namespace Gel
 			return Directory.Exists(path);
 		}
 
+		public bool fileExists(string path)
+		{
+			Debug.Print("fileExists: {0}, {1}", File.Exists(path), path);
+			return File.Exists(path);
+		}
+
 		public bool pathExists(string path)
 		{
 			Debug.Print("pathExists: " + path);

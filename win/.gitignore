@@ -49,3 +49,8 @@ _ReSharper*/
 
 #NuGet
 packages/
+
+#Un-ignore Files
+
+!dep/*/
+!dep/*

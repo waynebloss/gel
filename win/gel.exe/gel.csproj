@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Noesis.Javascript">
+      <HintPath>..\dep\Noesis.Javascript\bin\.Net3.5\x86\Noesis.Javascript.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,6 +52,8 @@
     <Compile Include="ComUtil.cs" />
     <Compile Include="FsApi.cs" />
     <Compile Include="OsApi.cs" />
+    <Compile Include="Scripting\v8\JsEngine+JsPreprocSource.cs" />
+    <Compile Include="Scripting\v8\JsEngine.cs" />
     <Compile Include="TimersApi.cs" />
     <Compile Include="EvalsApi.cs" />
     <Compile Include="GelArray.cs" />

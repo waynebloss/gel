@@ -121,7 +121,7 @@ namespace Gel
 
 		public void addTestScript()
 		{
-			App.Current.Script.Parse(ScriptEmbedded.ReadFile("Gel.Eval.js"));
+			App.Current.Script.Exec(ScriptEmbedded.ReadFile("Gel.Eval.js"));
 		}
 		
 		public void needTickCallback()
@@ -161,19 +161,7 @@ namespace Gel
 
 			Debug.Print("doTickCallback();");
 
-			if (_tickCallbackType != null)
-			{
-				// Invoke the Jscript (COM) object's default member (specified by the blank string).
-				// For a Jscript function, the default member is the function itself.
-				//
-				// This is what allows us to do:
-				//		api.tickCallback = function() {
-				//			...
-				//		};
-				//
-				_tickCallbackType.InvokeMember("", System.Reflection.BindingFlags.InvokeMethod, null,
-					_tickCallback, null);
-			}
+			App.Current.Script.Exec("process.tickCallback();");
 		}
 
 		public string cwd()

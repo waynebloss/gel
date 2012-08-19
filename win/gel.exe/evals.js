@@ -19,7 +19,8 @@ process.binding.set('evals', (function() {
 
 	};
 	NodeScript.runInThisContext = function(code, fileName, displayError) {
-		return api.runInThisContext(code.toString(), fileName.toString(), displayError === true);
+//		return api.runInThisContext(code.toString(), fileName.toString(), displayError === true);
+		return eval(code.toString());
 	};
 	NodeScript.runInNewContext = function(code, sandbox, fileName) {
 		// CONSIDER: To eval in a sandbox, maybe something like the following,

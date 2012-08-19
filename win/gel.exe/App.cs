@@ -5,7 +5,7 @@ using System.Text;
 using System.Diagnostics;
 using System.Windows.Forms;
 using Gel.Scripting;
-using Gel.Scripting.JScript;
+using Gel.Scripting.v8;
 using Gel.IO;
 
 namespace Gel
@@ -107,8 +107,8 @@ namespace Gel
 
 			/// TODO: If get main view from script; pass it to Application.Run().
 
-			if (!_exited)
-				Application.Run();
+			//if (!_exited)
+			//    Application.Run();
 
 			Debug.Print("Exiting.");
 		}

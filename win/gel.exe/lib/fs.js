@@ -12,7 +12,10 @@ fs.statSync = function(path) {
 };
 
 fs.readFileSync = function(filename, encoding) {
-	return api.readFileSync(filename, encoding);
+	if (api.fileExists(filename))
+		return api.readFileSync(filename, encoding);
+	else
+		throw new Error("File not found: " + filename);
 };
 
 // Node doesn't support symlinks / lstat on windows. Hence realpath is just

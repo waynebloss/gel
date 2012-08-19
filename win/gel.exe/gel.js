@@ -1,8 +1,6 @@
 ﻿/// <reference path="ref/process.js"/>
 /// <reference path="console.js"/>
 
-// #include <Gel.ddr-ecma5.js>
-// #include <Gel.json2.js>
 // #include <Gel.process.js>
 // #include <Gel.os.js>
 // #include <Gel.natives.js>
@@ -18,7 +16,7 @@ var global;
 
 	function startup() {
 		var EventEmitter = NativeModule.require('events').EventEmitter;
-		Object.set__proto__(process, EventEmitter.prototype);
+		process.__proto__ = EventEmitter.prototype;
 		process.EventEmitter = EventEmitter; // process.EventEmitter is deprecated
 
 		startup.globalVariables();
@@ -109,9 +107,9 @@ var global;
 	};
 
 	startup.printEngineVer = function() {
-		var ver = ScriptEngine() + '/' + 
-			[ScriptEngineMajorVersion(), ScriptEngineMinorVersion(), ScriptEngineBuildVersion()].join('.');
-
+//		var ver = ScriptEngine() + '/' + 
+//			[ScriptEngineMajorVersion(), ScriptEngineMinorVersion(), ScriptEngineBuildVersion()].join('.');
+		var ver = 'v8';
 		console.log(ver);
 	};
 

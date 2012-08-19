@@ -41,16 +41,16 @@ Module.wrap = NativeModule.wrap;
 
 var path = NativeModule.require('path');
 
-Module._debug = function() {};
-if (process.env.NODE_DEBUG && /module/.test(process.env.NODE_DEBUG)) {
-  Module._debug = function(x) {
-    console.error(x);
-  };
-}
+//Module._debug = function() {};
+//if (process.env.NODE_DEBUG && /module/.test(process.env.NODE_DEBUG)) {
+//  Module._debug = function(x) {
+//    console.error(x);
+//  };
+//}
 
 
 // We use this alias for the preprocessor that filters it out
-var debug = Module._debug;
+//var debug = Module._debug;
 
 
 // given a module name, and a list of paths to test, returns the first
@@ -245,7 +245,7 @@ Module._resolveLookupPaths = function(request, parent) {
     id = './' + id;
   }
 
-  debug('RELATIVE: requested:' + request +
+  console.log('RELATIVE: requested:' + request +
         ' set ID to: ' + id + ' from ' + parent.id);
 
   return [id, [path.dirname(parent.filename)]];
@@ -254,11 +254,11 @@ Module._resolveLookupPaths = function(request, parent) {
 
 Module._load = function(request, parent, isMain) {
   if (parent) {
-    debug('Module._load REQUEST  ' + (request) + ' parent: ' + parent.id);
+    console.log('Module._load REQUEST  ' + (request) + ' parent: ' + parent.id);
   }
-
+  console.log("Module._load request: " + request);
   var filename = Module._resolveFilename(request, parent);
-
+  
   var cachedModule = Module._cache[filename];
   if (cachedModule) {
     return cachedModule.exports;
@@ -273,7 +273,7 @@ Module._load = function(request, parent, isMain) {
       return replModule.exports;
     }
 
-    debug('load native module ' + request);
+    console.log('load native module ' + request);
     return NativeModule.require(filename);
   }
 
@@ -305,10 +305,11 @@ Module._resolveFilename = function(request, parent) {
   var paths = resolvedModule[1];
 
   // look up the filename first, since that's the cache key.
-  debug('looking for ' + JSON.stringify(id) +
+  console.log('looking for ' + JSON.stringify(id) +
         ' in ' + JSON.stringify(paths));
 
-  var filename = Module._findPath(request, paths);
+// TODO: Fix Module_findPath. It returns false for the given absolute path.
+  var filename = id; // Module._findPath(request, paths);
   if (!filename) {
     var err = new Error("Cannot find module '" + request + "'");
     err.code = 'MODULE_NOT_FOUND';
@@ -319,7 +320,7 @@ Module._resolveFilename = function(request, parent) {
 
 
 Module.prototype.load = function(filename) {
-  debug('load ' + JSON.stringify(filename) +
+  console.log('load ' + JSON.stringify(filename) +
         ' for module ' + JSON.stringify(this.id));
 
   assert(!this.loaded);
@@ -378,7 +379,7 @@ Module.prototype._compile = function(content, filename) {
 
   if (Module._contextLoad) {
     if (self.id !== '.') {
-      debug('load submodule');
+      console.log('load submodule');
       // not root module
       var sandbox = {};
       for (var k in global) {
@@ -395,7 +396,7 @@ Module.prototype._compile = function(content, filename) {
       return runInNewContext(content, sandbox, filename, true);
     }
 
-    debug('load root module');
+    console.log('load root module');
     // root module
     global.require = require;
     global.exports = self.exports;
