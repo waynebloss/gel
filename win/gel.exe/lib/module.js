@@ -151,12 +151,6 @@ Module._findPath = function(request, paths) {
     return Module._pathCache[cacheKey];
   }
 
-  // NOTE: Checking if request is an absolute path.
-  if (fs.exists(request)) {
-	Module._pathCache[cacheKey] = request;
-	return request;
-  }
-
   // For each path
   for (var i = 0, PL = paths.length; i < PL; i++) {
     var basePath = path.resolve(paths[i], request);

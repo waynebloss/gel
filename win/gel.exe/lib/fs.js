@@ -3,7 +3,7 @@ var fs = exports;
 var pathModule = require('path');
 
 fs.statSync = function(path) {
-	var isDir = api.IsDirectory(path);
+	var isDir = api.isDirectory(path);
 	return {
 		isDirectory: function() {
 			return isDir;
