@@ -33,8 +33,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Noesis.Javascript">
-      <HintPath>..\dep\Noesis.Javascript\bin\.Net3.5\x86\Noesis.Javascript.dll</HintPath>
+    <Reference Include="CefSharp">
+      <HintPath>..\dep\CefSharp\net2.0\CefSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="CefSharp.WinForms">
+      <HintPath>..\dep\CefSharp\net2.0\CefSharp.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -52,8 +55,6 @@
     <Compile Include="ComUtil.cs" />
     <Compile Include="FsApi.cs" />
     <Compile Include="OsApi.cs" />
-    <Compile Include="Scripting\v8\JsEngine+JsPreprocSource.cs" />
-    <Compile Include="Scripting\v8\JsEngine.cs" />
     <Compile Include="TimersApi.cs" />
     <Compile Include="EvalsApi.cs" />
     <Compile Include="GelArray.cs" />
@@ -95,6 +96,222 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="..\dep\CefSharp\net2.0\chrome.pak">
+      <Link>chrome.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\am.pak">
+      <Link>locales\am.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\ar.pak">
+      <Link>locales\ar.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\bg.pak">
+      <Link>locales\bg.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\bn.pak">
+      <Link>locales\bn.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\ca.pak">
+      <Link>locales\ca.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\cs.pak">
+      <Link>locales\cs.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\da.pak">
+      <Link>locales\da.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\de.pak">
+      <Link>locales\de.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\el.pak">
+      <Link>locales\el.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\en-GB.pak">
+      <Link>locales\en-GB.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\en-US.pak">
+      <Link>locales\en-US.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\es-419.pak">
+      <Link>locales\es-419.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\es.pak">
+      <Link>locales\es.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\et.pak">
+      <Link>locales\et.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\fa.pak">
+      <Link>locales\fa.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\fi.pak">
+      <Link>locales\fi.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\fil.pak">
+      <Link>locales\fil.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\fr.pak">
+      <Link>locales\fr.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\gu.pak">
+      <Link>locales\gu.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\he.pak">
+      <Link>locales\he.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\hi.pak">
+      <Link>locales\hi.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\hr.pak">
+      <Link>locales\hr.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\hu.pak">
+      <Link>locales\hu.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\id.pak">
+      <Link>locales\id.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\it.pak">
+      <Link>locales\it.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\ja.pak">
+      <Link>locales\ja.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\kn.pak">
+      <Link>locales\kn.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\ko.pak">
+      <Link>locales\ko.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\lt.pak">
+      <Link>locales\lt.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\lv.pak">
+      <Link>locales\lv.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\ml.pak">
+      <Link>locales\ml.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\mr.pak">
+      <Link>locales\mr.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\ms.pak">
+      <Link>locales\ms.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\nb.pak">
+      <Link>locales\nb.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\nl.pak">
+      <Link>locales\nl.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\pl.pak">
+      <Link>locales\pl.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\pt-BR.pak">
+      <Link>locales\pt-BR.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\pt-PT.pak">
+      <Link>locales\pt-PT.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\ro.pak">
+      <Link>locales\ro.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\ru.pak">
+      <Link>locales\ru.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\sk.pak">
+      <Link>locales\sk.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\sl.pak">
+      <Link>locales\sl.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\sr.pak">
+      <Link>locales\sr.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\sv.pak">
+      <Link>locales\sv.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\sw.pak">
+      <Link>locales\sw.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\ta.pak">
+      <Link>locales\ta.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\te.pak">
+      <Link>locales\te.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\th.pak">
+      <Link>locales\th.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\tr.pak">
+      <Link>locales\tr.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\uk.pak">
+      <Link>locales\uk.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\vi.pak">
+      <Link>locales\vi.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\zh-CN.pak">
+      <Link>locales\zh-CN.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\locales\zh-TW.pak">
+      <Link>locales\zh-TW.pak</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="lib\Readme.md" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -112,6 +329,34 @@
     <EmbeddedResource Include="process.js" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\dep\CefSharp\net2.0\avcodec-54.dll">
+      <Link>avcodec-54.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\avformat-54.dll">
+      <Link>avformat-54.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\avutil-51.dll">
+      <Link>avutil-51.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\icudt.dll">
+      <Link>icudt.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\libcef.dll">
+      <Link>libcef.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\libEGL.dll">
+      <Link>libEGL.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\dep\CefSharp\net2.0\libGLESv2.dll">
+      <Link>libGLESv2.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="test\test_module.js" />
     <Content Include="test\test_module_AA.js" />
     <EmbeddedResource Include="test\process.js" />
@@ -147,6 +392,7 @@
     <EmbeddedResource Include="console.js" />
     <Content Include="ref\external.js" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

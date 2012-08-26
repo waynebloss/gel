@@ -1,0 +1,5 @@
+Version: 1.19.0
+
+via Binary Release Download
+via https://github.com/chillitom/CefSharp
+file https://github.com/downloads/ataranto/CefSharp/CefSharp-1.19.0.7z

@@ -5,7 +5,7 @@ using System.Text;
 using System.Diagnostics;
 using System.Windows.Forms;
 using Gel.Scripting;
-using Gel.Scripting.v8;
+using Gel.Scripting.JScript;
 using Gel.IO;
 
 namespace Gel
