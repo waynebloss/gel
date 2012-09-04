@@ -6,27 +6,27 @@ using System.Reflection;
 using System.Threading;
 using System.Diagnostics;
 using Gel.IO;
-using Noesis.Javascript;
 
-namespace Gel.Scripting.v8
+namespace Gel.Scripting.v8CefSharp
 {
 	public partial class JsEngine : IScriptEngine, IDisposable
 	{
-		JavascriptContext _engine;
+		//CefSharp.WinForms.WebView 
+		//JavascriptContext _engine;
 
 		#region Constructor
 
 		public JsEngine()
 		{
-			_engine = CreateNativeEngine();
+			//_engine = CreateNativeEngine();
 
 			_sourceByName = new Dictionary<string, IScriptSource>();
 		}
 
-		static JavascriptContext CreateNativeEngine()
-		{
-			return new JavascriptContext();
-		}
+		//static JavascriptContext CreateNativeEngine()
+		//{
+		//    return new JavascriptContext();
+		//}
 
 		#endregion
 

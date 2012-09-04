@@ -3,7 +3,7 @@ using System.Collections.Generic;
 //using System.Reflection;
 using System.Text;
 
-namespace Gel.Scripting.v8
+namespace Gel.Scripting.v8CefSharp
 {
 	partial class JsEngine
 	{

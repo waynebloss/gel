@@ -55,6 +55,14 @@
     <Compile Include="ComUtil.cs" />
     <Compile Include="FsApi.cs" />
     <Compile Include="OsApi.cs" />
+    <Compile Include="Scripting\v8CefSharp\GelScheme.cs" />
+    <Compile Include="Scripting\v8CefSharp\JsCefSharpWindow.cs" />
+    <Compile Include="Scripting\v8CefSharp\JsEngine+JsPreprocSource.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Scripting\v8CefSharp\JsEngine.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TimersApi.cs" />
     <Compile Include="EvalsApi.cs" />
     <Compile Include="GelArray.cs" />
