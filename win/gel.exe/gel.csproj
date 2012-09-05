@@ -112,7 +112,6 @@
     <EmbeddedResource Include="lib\util.js" />
     <EmbeddedResource Include="natives.js" />
     <EmbeddedResource Include="lib\events.js" />
-    <EmbeddedResource Include="lib\stream.js" />
     <EmbeddedResource Include="lib\path.js" />
     <EmbeddedResource Include="lib\assert.js" />
     <EmbeddedResource Include="test\assert.js" />
