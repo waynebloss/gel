@@ -6,7 +6,6 @@ using System.Runtime.InteropServices;
 
 namespace Gel
 {
-	[ComVisible(true)]
 	public class OsApi
 	{
 		readonly string _verString;

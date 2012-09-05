@@ -7,7 +7,6 @@ using Gel.Scripting;
 
 namespace Gel
 {
-	[ComVisible(true)]
 	public class NativesApi
 	{
 		internal NativesApi() { }

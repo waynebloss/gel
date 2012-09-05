@@ -7,7 +7,6 @@ using System.Diagnostics;
 
 namespace Gel
 {
-	[ComVisible(true)]
 	public sealed class ConsoleApi
 	{
 		internal ConsoleApi() { }

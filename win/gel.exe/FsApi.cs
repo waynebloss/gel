@@ -8,7 +8,6 @@ using System.Diagnostics;
 
 namespace Gel
 {
-	[ComVisible(true)]
 	public class FsApi
 	{
 		public bool isDirectory(string path)

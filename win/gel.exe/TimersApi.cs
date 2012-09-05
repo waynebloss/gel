@@ -8,7 +8,6 @@ using System.Windows.Forms;
 
 namespace Gel
 {
-	[ComVisible(true)]
 	public sealed class TimersApi
 	{
 		internal TimersApi() { }

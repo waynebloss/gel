@@ -10,7 +10,6 @@ using Gel.Scripting;
 
 namespace Gel
 {
-	[ComVisible(true)]
 	public sealed class ProcessApi
 	{
 		internal ProcessApi()
