@@ -1,1 +1,0 @@
-This directory is a place-holder for files that are linked in the project.

@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Noesis.Javascript">
+      <HintPath>..\dep\Noesis.Javascript\bin\.Net3.5\x86\Noesis.Javascript.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Deployment" />
@@ -44,9 +47,6 @@
   <ItemGroup>
     <Compile Include="..\gel.exe\CharUtil.cs">
       <Link>CharUtil.cs</Link>
-    </Compile>
-    <Compile Include="..\gel.exe\ComUtil.cs">
-      <Link>ComUtil.cs</Link>
     </Compile>
     <Compile Include="..\gel.exe\Data\Json.cs">
       <Link>Data\Json.cs</Link>
@@ -66,30 +66,6 @@
     <Compile Include="..\gel.exe\IO\TempFile.cs">
       <Link>IO\TempFile.cs</Link>
     </Compile>
-    <Compile Include="..\gel.exe\Scripting\ActiveScript\ActiveScriptDispatch.cs">
-      <Link>Scripting\ActiveScript\ActiveScriptDispatch.cs</Link>
-    </Compile>
-    <Compile Include="..\gel.exe\Scripting\ActiveScript\ActiveScriptParser.cs">
-      <Link>Scripting\ActiveScript\ActiveScriptParser.cs</Link>
-    </Compile>
-    <Compile Include="..\gel.exe\Scripting\ActiveScript\ActiveScriptSite.cs">
-      <Link>Scripting\ActiveScript\ActiveScriptSite.cs</Link>
-    </Compile>
-    <Compile Include="..\gel.exe\Scripting\ActiveScript\Constants.cs">
-      <Link>Scripting\ActiveScript\Constants.cs</Link>
-    </Compile>
-    <Compile Include="..\gel.exe\Scripting\ActiveScript\Interfaces.cs">
-      <Link>Scripting\ActiveScript\Interfaces.cs</Link>
-    </Compile>
-    <Compile Include="..\gel.exe\Scripting\JScript\JsEngine+JsPreprocSource.cs">
-      <Link>Scripting\JScript\JsEngine+JsPreprocSource.cs</Link>
-    </Compile>
-    <Compile Include="..\gel.exe\Scripting\JScript\JsEngine.cs">
-      <Link>Scripting\JScript\JsEngine.cs</Link>
-    </Compile>
-    <Compile Include="..\gel.exe\Scripting\NodeJs\NodeProcess.cs">
-      <Link>Scripting\NodeJs\NodeProcess.cs</Link>
-    </Compile>
     <Compile Include="..\gel.exe\Scripting\ScriptContext.cs">
       <Link>Scripting\ScriptContext.cs</Link>
     </Compile>
@@ -105,6 +81,12 @@
     <Compile Include="..\gel.exe\Scripting\ScriptSource.cs">
       <Link>Scripting\ScriptSource.cs</Link>
     </Compile>
+    <Compile Include="..\gel.exe\Scripting\v8\JsEngine+JsPreprocSource.cs">
+      <Link>Scripting\v8\JsEngine+JsPreprocSource.cs</Link>
+    </Compile>
+    <Compile Include="..\gel.exe\Scripting\v8\JsEngine.cs">
+      <Link>Scripting\v8\JsEngine.cs</Link>
+    </Compile>
     <Compile Include="..\gel.exe\StringUtil.cs">
       <Link>StringUtil.cs</Link>
     </Compile>
@@ -113,10 +95,8 @@
   <ItemGroup>
     <None Include="Data\Readme.md" />
     <None Include="IO\Readme.md" />
-    <None Include="Scripting\NodeJs\Readme.md" />
-    <None Include="Scripting\ActiveScript\Readme.md" />
-    <None Include="Scripting\JScript\Readme.md" />
     <None Include="Scripting\Readme.md" />
+    <None Include="Scripting\v8\Readme.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

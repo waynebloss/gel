@@ -49,7 +49,6 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="CharUtil.cs" />
-    <Compile Include="ComUtil.cs" />
     <Compile Include="FsApi.cs" />
     <Compile Include="OsApi.cs" />
     <Compile Include="Scripting\v8\JsEngine+JsPreprocSource.cs" />
@@ -64,18 +63,8 @@
     <Compile Include="IO\EmbeddedFile.cs" />
     <Compile Include="IO\TempFile.cs" />
     <Compile Include="NativesApi.cs" />
-    <Compile Include="Scripting\NodeJs\NodeProcess.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ProcessApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scripting\ActiveScript\ActiveScriptDispatch.cs" />
-    <Compile Include="Scripting\ActiveScript\ActiveScriptParser.cs" />
-    <Compile Include="Scripting\ActiveScript\ActiveScriptSite.cs" />
-    <Compile Include="Scripting\ActiveScript\Constants.cs" />
-    <Compile Include="Scripting\ActiveScript\Interfaces.cs" />
-    <Compile Include="Scripting\JScript\JsEngine+JsPreprocSource.cs" />
-    <Compile Include="Scripting\JScript\JsEngine.cs" />
     <Compile Include="Scripting\ScriptContext.cs" />
     <Compile Include="Scripting\ScriptEngine.cs" />
     <Compile Include="Scripting\ScriptException.cs" />
@@ -123,8 +112,6 @@
     <EmbeddedResource Include="lib\util.js" />
     <EmbeddedResource Include="natives.js" />
     <EmbeddedResource Include="lib\events.js" />
-    <EmbeddedResource Include="ddr-ecma5.js" />
-    <EmbeddedResource Include="json2.js" />
     <EmbeddedResource Include="lib\stream.js" />
     <EmbeddedResource Include="lib\path.js" />
     <EmbeddedResource Include="lib\assert.js" />

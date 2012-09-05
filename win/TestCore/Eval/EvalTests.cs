@@ -3,7 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Gel.Scripting.JScript;
+using Gel.Scripting.v8;
 using Gel.Scripting;
 
 namespace TestCore.Eval
