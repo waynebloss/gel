@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F598B580-B548-4253-A54E-0685568EF10A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Gel</RootNamespace>
+    <AssemblyName>gel-winforms</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Noesis.Javascript">
+      <HintPath>..\..\dep\Noesis.Javascript\bin\.Net3.5\x86\Noesis.Javascript.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.cs" />
+    <Compile Include="CharUtil.cs" />
+    <Compile Include="FsApi.cs" />
+    <Compile Include="OsApi.cs" />
+    <Compile Include="Scripting\v8\JsEngine.cs" />
+    <Compile Include="TimersApi.cs" />
+    <Compile Include="EvalsApi.cs" />
+    <Compile Include="ConsoleApi.cs" />
+    <Compile Include="IO\EmbeddedFile.cs" />
+    <Compile Include="IO\TempFile.cs" />
+    <Compile Include="NativesApi.cs" />
+    <Compile Include="ProcessApi.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripting\ScriptContext.cs" />
+    <Compile Include="Scripting\ScriptEngine.cs" />
+    <Compile Include="Scripting\ScriptException.cs" />
+    <Compile Include="Scripting\ScriptGlobals.cs" />
+    <Compile Include="Scripting\ScriptSource.cs" />
+    <Compile Include="StringUtil.cs" />
+    <EmbeddedResource Include="lib\module.js" />
+    <EmbeddedResource Include="lib\os.js" />
+    <EmbeddedResource Include="lib\timers.js" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="..\..\dep\Noesis.Javascript\bin\.Net3.5\x86\Microsoft.VC90.CRT.manifest">
+      <Link>Microsoft.VC90.CRT.manifest</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="lib\Readme.md" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="ref\Readme.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\dep\Noesis.Javascript\bin\.Net3.5\x86\msvcm90.dll">
+      <Link>msvcm90.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\dep\Noesis.Javascript\bin\.Net3.5\x86\msvcp90.dll">
+      <Link>msvcp90.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\dep\Noesis.Javascript\bin\.Net3.5\x86\msvcr90.dll">
+      <Link>msvcr90.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <EmbeddedResource Include="gel.js" />
+    <EmbeddedResource Include="process.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="test\test_module.js" />
+    <Content Include="test\test_module_AA.js" />
+    <EmbeddedResource Include="test\process.js" />
+    <EmbeddedResource Include="test\index.js" />
+    <EmbeddedResource Include="test\path.js" />
+    <EmbeddedResource Include="test\timers.js" />
+    <EmbeddedResource Include="test\os.js" />
+    <EmbeddedResource Include="evals.js" />
+    <EmbeddedResource Include="lib\util.js" />
+    <EmbeddedResource Include="natives.js" />
+    <EmbeddedResource Include="lib\events.js" />
+    <EmbeddedResource Include="lib\path.js" />
+    <EmbeddedResource Include="lib\assert.js" />
+    <EmbeddedResource Include="test\assert.js" />
+    <EmbeddedResource Include="lib\_linklist.js" />
+    <EmbeddedResource Include="lib\freelist.js" />
+    <EmbeddedResource Include="lib\punycode.js" />
+    <EmbeddedResource Include="lib\querystring.js" />
+    <EmbeddedResource Include="lib\url.js" />
+    <EmbeddedResource Include="lib\vm.js" />
+    <None Include="lic\narwhal.txt" />
+    <None Include="lic\node.txt" />
+    <EmbeddedResource Include="timer_wrap.js" />
+    <EmbeddedResource Include="os.js" />
+    <None Include="lic\Fair_Oaks_Labs.txt" />
+    <EmbeddedResource Include="lib\fs.js" />
+    <None Include="lic\gel.txt" />
+    <Content Include="ref\process.js" />
+    <EmbeddedResource Include="console.js" />
+    <Content Include="ref\external.js" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
