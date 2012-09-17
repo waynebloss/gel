@@ -11,7 +11,6 @@ namespace Gel.Scripting
 	public interface IScriptSource
 	{
 		string Path { get; }
-		int GetLineSource(int line, out IScriptSource source);
 		System.IO.TextReader GetReader();
 	}
 
@@ -104,12 +103,6 @@ namespace Gel.Scripting
 
 		public string Path { get { return _path; } }
 
-		public int GetLineSource(int line, out IScriptSource source)
-		{
-			source = this;
-			return line;
-		}
-
 		public System.IO.TextReader GetReader()
 		{
 			return new System.IO.StreamReader(_ass.GetManifestResourceStream(_path));
@@ -164,12 +157,6 @@ namespace Gel.Scripting
 
 		public string Path { get { return _path; } }
 
-		public int GetLineSource(int line, out IScriptSource source)
-		{
-			source = this;
-			return line;
-		}
-
 		public System.IO.TextReader GetReader()
 		{
 			return new System.IO.StreamReader(_path, _encoding, true);
@@ -194,12 +181,6 @@ namespace Gel.Scripting
 
 		readonly string _Path;
 		public string Path { get { return _Path; } }
-
-		public int GetLineSource(int line, out IScriptSource source)
-		{
-			source = this;
-			return line;
-		}
 
 		public System.IO.TextReader GetReader()
 		{
