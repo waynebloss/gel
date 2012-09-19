@@ -15,7 +15,7 @@ namespace Gel
 		{
 			if (id.StartsWith("test."))
 			{	// Gel.test.testName.js
-				return ScriptSource.GetAssemblyForEmbedded("Gel." + id + ".js") != null;
+				return ScriptSource.GetAssemblyForEmbedded("Gel.Core." + id + ".js") != null;
 			}
 			return ScriptSource.GetAssemblyForEmbedded(LibPath(id)) != null;
 		}
@@ -24,14 +24,14 @@ namespace Gel
 		{
 			if (id.StartsWith("test."))
 			{	// Gel.test.testName.js
-				return ScriptEmbedded.ReadFile("Gel." + id + ".js");
+				return ScriptEmbedded.ReadFile("Gel.Core." + id + ".js");
 			}
 			return ScriptEmbedded.ReadFile(LibPath(id));
 		}
 
 		static string LibPath(string id)
 		{
-			return "Gel.lib." + id + ".js";
+			return "Gel.Core.lib." + id + ".js";
 		}
 	}
 }

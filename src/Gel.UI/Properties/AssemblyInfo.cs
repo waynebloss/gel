@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("gel-winforms")]
+[assembly: AssemblyTitle("Gel.UI")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("KickRound")]
-[assembly: AssemblyProduct("gel-winforms")]
+[assembly: AssemblyProduct("Gel.UI")]
 [assembly: AssemblyCopyright("Copyright © KickRound 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("dae825b3-6ca2-4a25-aac8-ce3ab7d4860c")]
+[assembly: Guid("a4756db6-a9df-4004-8684-031f1c790aa4")]
 
 // Version information for an assembly consists of the following four values:
 //

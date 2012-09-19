@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Gel
+namespace Gel.UI
 {
 	static class Program
 	{
@@ -13,9 +13,9 @@ namespace Gel
 		[STAThread]
 		static void Main()
 		{
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
-			//Application.Run(new Form1());
+			var app = new App();
+
+			app.Run();
 		}
 	}
 }

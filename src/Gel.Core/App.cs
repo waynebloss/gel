@@ -26,7 +26,7 @@ namespace Gel
 
 		readonly ProcessApi _processApi;
 
-		App()
+		public App()
 		{
 			Current = this;
 
@@ -65,14 +65,6 @@ namespace Gel
 			Application.SetCompatibleTextRenderingDefault(false);
 		}
 
-		[STAThread]
-		static void Main()
-		{
-			var app = new App();
-
-			app.Run();
-		}
-
 		public JsEngine Script { get; private set; }
 
 		internal bool needTickCallback;
@@ -86,12 +78,12 @@ namespace Gel
 				.SetNamedItem("external", _processApi);
 
 			var resPaths = new string[]{
-				"Gel.process.js",
-				"Gel.os.js",
-				"Gel.natives.js",
-				"Gel.console.js",
-				"Gel.evals.js",
-				"Gel.timer_wrap.js"
+				"Gel.Core.process.js",
+				"Gel.Core.os.js",
+				"Gel.Core.natives.js",
+				"Gel.Core.console.js",
+				"Gel.Core.evals.js",
+				"Gel.Core.timer_wrap.js"
 			};
 
 			foreach (var resPath in resPaths)
@@ -99,7 +91,7 @@ namespace Gel
 				Script.Exec(ScriptEmbedded.ReadFile(resPath));
 			}
 
-			Script.Exec(ScriptEmbedded.ReadFile("Gel.gel.js"));
+			Script.Exec(ScriptEmbedded.ReadFile("Gel.Core.gel.js"));
 
 			while (needTickCallback)
 			{
