@@ -19,10 +19,12 @@ function Module(id, parent) {
   this.id = id;
   this.exports = {};
   this.parent = parent;
+  if (parent && parent.children) {
+    parent.children.push(this);
+  }
 
   this.filename = null;
   this.loaded = false;
-  this.exited = false;
   this.children = [];
 }
 module.exports = Module;
@@ -41,16 +43,16 @@ Module.wrap = NativeModule.wrap;
 
 var path = NativeModule.require('path');
 
-//Module._debug = function() {};
-//if (process.env.NODE_DEBUG && /module/.test(process.env.NODE_DEBUG)) {
-//  Module._debug = function(x) {
-//    console.error(x);
-//  };
-//}
+Module._debug = function() {};
+if (process.env.NODE_DEBUG && /module/.test(process.env.NODE_DEBUG)) {
+  Module._debug = function(x) {
+    console.error(x);
+  };
+}
 
 
 // We use this alias for the preprocessor that filters it out
-//var debug = Module._debug;
+var debug = Module._debug;
 
 
 // given a module name, and a list of paths to test, returns the first
@@ -137,7 +139,6 @@ function tryExtensions(p, exts) {
 
 
 Module._findPath = function(request, paths) {
-  var fs = NativeModule.require('fs');
   var exts = Object.keys(Module._extensions);
 
   if (request.charAt(0) === '/') {
@@ -245,7 +246,7 @@ Module._resolveLookupPaths = function(request, parent) {
     id = './' + id;
   }
 
-  console.log('RELATIVE: requested:' + request +
+  debug('RELATIVE: requested:' + request +
         ' set ID to: ' + id + ' from ' + parent.id);
 
   return [id, [path.dirname(parent.filename)]];
@@ -254,9 +255,9 @@ Module._resolveLookupPaths = function(request, parent) {
 
 Module._load = function(request, parent, isMain) {
   if (parent) {
-    console.log('Module._load REQUEST  ' + (request) + ' parent: ' + parent.id);
+    debug('Module._load REQUEST  ' + (request) + ' parent: ' + parent.id);
   }
-  console.log("Module._load request: " + request);
+
   var filename = Module._resolveFilename(request, parent);
   
   var cachedModule = Module._cache[filename];
@@ -273,7 +274,7 @@ Module._load = function(request, parent, isMain) {
       return replModule.exports;
     }
 
-    console.log('load native module ' + request);
+    debug('load native module ' + request);
     return NativeModule.require(filename);
   }
 
@@ -285,11 +286,16 @@ Module._load = function(request, parent, isMain) {
   }
 
   Module._cache[filename] = module;
+
+  var hadException = true;
+
   try {
     module.load(filename);
-  } catch (err) {
-    delete Module._cache[filename];
-    throw err;
+    hadException = false;
+  } finally {
+    if (hadException) {
+      delete Module._cache[filename];
+    }
   }
 
   return module.exports;
@@ -305,10 +311,9 @@ Module._resolveFilename = function(request, parent) {
   var paths = resolvedModule[1];
 
   // look up the filename first, since that's the cache key.
-  console.log('looking for ' + JSON.stringify(id) +
+  debug('looking for ' + JSON.stringify(id) +
         ' in ' + JSON.stringify(paths));
 
-// TODO: Fix Module_findPath. It returns false for the given absolute path.
   var filename = Module._findPath(request, paths);
   if (!filename) {
     var err = new Error("Cannot find module '" + request + "'");
@@ -320,7 +325,7 @@ Module._resolveFilename = function(request, parent) {
 
 
 Module.prototype.load = function(filename) {
-  console.log('load ' + JSON.stringify(filename) +
+  debug('load ' + JSON.stringify(filename) +
         ' for module ' + JSON.stringify(this.id));
 
   assert(!this.loaded);
@@ -358,11 +363,11 @@ Module.prototype._compile = function(content, filename) {
     return Module._resolveFilename(request, self);
   };
 
-//  Object.defineProperty(require, 'paths', { get: function() {
-//    throw new Error('require.paths is removed. Use ' +
-//                    'node_modules folders, or the NODE_PATH ' +
-//                    'environment variable instead.');
-//  }});
+  Object.defineProperty(require, 'paths', { get: function() {
+    throw new Error('require.paths is removed. Use ' +
+                    'node_modules folders, or the NODE_PATH ' +
+                    'environment variable instead.');
+  }});
 
   require.main = process.mainModule;
 
@@ -379,7 +384,7 @@ Module.prototype._compile = function(content, filename) {
 
   if (Module._contextLoad) {
     if (self.id !== '.') {
-      console.log('load submodule');
+      debug('load submodule');
       // not root module
       var sandbox = {};
       for (var k in global) {
@@ -396,7 +401,7 @@ Module.prototype._compile = function(content, filename) {
       return runInNewContext(content, sandbox, filename, true);
     }
 
-    console.log('load root module');
+    debug('load root module');
     // root module
     global.require = require;
     global.exports = self.exports;
@@ -413,7 +418,12 @@ Module.prototype._compile = function(content, filename) {
   var compiledWrapper = runInThisContext(wrapper, filename, true);
   if (global.v8debug) {
     if (!resolvedArgv) {
-      resolvedArgv = Module._resolveFilename(process.argv[1], null);
+      // we enter the repl if we're not given a filename argument.
+      if (process.argv[1]) {
+        resolvedArgv = Module._resolveFilename(process.argv[1], null);
+      } else {
+        resolvedArgv = 'repl';
+      }
     }
 
     // Set breakpoint on module start
@@ -447,7 +457,12 @@ Module._extensions['.js'] = function(module, filename) {
 // Native extension for .json
 Module._extensions['.json'] = function(module, filename) {
   var content = NativeModule.require('fs').readFileSync(filename, 'utf8');
+  try {
   module.exports = JSON.parse(stripBOM(content));
+  } catch (err) {
+    err.message = filename + ': ' + err.message;
+    throw err;
+  }
 };
 
 

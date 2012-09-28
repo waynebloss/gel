@@ -14,12 +14,12 @@ exports.format = function(f) {
 	var args = arguments;
 	var len = args.length;
 	var str = String(f).replace(formatRegExp, function(x) {
+    if (x === '%%') return '%';
 		if (i >= len) return x;
 		switch (x) {
 			case '%s': return String(args[i++]);
 			case '%d': return Number(args[i++]);
 			case '%j': return JSON.stringify(args[i++]);
-			case '%%': return '%';
 			default:
 				return x;
 		}
@@ -32,6 +32,31 @@ exports.format = function(f) {
 		}
 	}
 	return str;
+};
+
+
+// Mark that a method should not be used.
+// Returns a modified function which warns once by default.
+// If --no-deprecation is set, then it is a no-op.
+exports.deprecate = function(fn, msg) {
+  if (process.noDeprecation === true) {
+    return fn;
+  }
+
+  var warned = false;
+  function deprecated() {
+    if (!warned) {
+      if (process.traceDeprecation) {
+        console.trace(msg);
+      } else {
+        console.error(msg);
+      }
+      warned = true;
+    }
+    return fn.apply(this, arguments);
+  }
+
+  return deprecated;
 };
 
 
@@ -84,7 +109,7 @@ exports.inspect = inspect;
 
 
 // http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
-var colors = {
+inspect.colors = {
 	'bold': [1, 22],
 	'italic': [3, 23],
 	'underline': [4, 24],
@@ -101,7 +126,7 @@ var colors = {
 };
 
 // Don't use 'blue' not visible on cmd.exe
-var styles = {
+inspect.styles = {
 	'special': 'cyan',
 	'number': 'yellow',
 	'boolean': 'yellow',
@@ -115,11 +140,11 @@ var styles = {
 
 
 function stylizeWithColor(str, styleType) {
-	var style = styles[styleType];
+  var style = inspect.styles[styleType];
 
 	if (style) {
-		return '\033[' + colors[style][0] + 'm' + str +
-           '\033[' + colors[style][1] + 'm';
+    return '\u001b[' + inspect.colors[style][0] + 'm' + str +
+           '\u001b[' + inspect.colors[style][1] + 'm';
 	} else {
 		return str;
 	}
@@ -128,6 +153,13 @@ function stylizeWithColor(str, styleType) {
 
 function stylizeNoColor(str, styleType) {
 	return str;
+}
+function arrayToHash(array) {
+  var hash = {};
+  array.forEach(function(val, idx) {
+    hash[val] = true;
+  });
+  return hash;
 }
 
 
@@ -139,7 +171,7 @@ function formatValue(ctx, value, recurseTimes) {
       value.inspect !== exports.inspect &&
 	// Also filter out any prototype objects using the circular check.
       !(value.constructor && value.constructor.prototype === value)) {
-		return value.inspect(recurseTimes);
+    return String(value.inspect(recurseTimes));
 	}
 
 	// Primitive types cannot have properties
@@ -149,8 +181,12 @@ function formatValue(ctx, value, recurseTimes) {
 	}
 
 	// Look up the keys of the object.
-	var visibleKeys = Object.keys(value);
-	var keys = ctx.showHidden ? Object.getOwnPropertyNames(value) : visibleKeys;
+  var keys = Object.keys(value);
+  var visibleKeys = arrayToHash(keys);
+
+  if (ctx.showHidden) {
+    keys = Object.getOwnPropertyNames(value);
+  }
 
 	// Some type of object without properties can be shortcutted.
 	if (keys.length === 0) {
@@ -259,7 +295,7 @@ function formatError(value) {
 function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
 	var output = [];
 	for (var i = 0, l = value.length; i < l; ++i) {
-		if (Object.prototype.hasOwnProperty.call(value, String(i))) {
+    if (hasOwnProperty(value, String(i))) {
 			output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
           String(i), true));
 		} else {
@@ -290,7 +326,7 @@ function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
 			str = ctx.stylize('[Setter]', 'special');
 		}
 	}
-	if (visibleKeys.indexOf(key) < 0) {
+  if (!hasOwnProperty(visibleKeys, key)) {
 		name = '[' + key + ']';
 	}
 	if (!str) {
@@ -388,12 +424,11 @@ function objectToString(o) {
 }
 
 
-exports.p = function() {
+exports.p = exports.deprecate(function() {
 	for (var i = 0, len = arguments.length; i < len; ++i) {
 		error(exports.inspect(arguments[i]));
 	}
-};
-module.deprecate('p', 'Use `util.puts(util.inspect())` instead.');
+}, 'util.p: Use console.error() instead.');
 
 
 function pad(n) {
@@ -419,13 +454,12 @@ exports.log = function(msg) {
 };
 
 
-exports.exec = function() {
+exports.exec = exports.deprecate(function() {
 	return require('child_process').exec.apply(this, arguments);
-};
-module.deprecate('exec', 'It is now called `child_process.exec`.');
+}, 'util.exec is now called `child_process.exec`.');
 
 
-exports.pump = function(readStream, writeStream, callback) {
+function pump(readStream, writeStream, callback) {
 	var callbackCalled = false;
 
 	function call(a, b, c) {
@@ -460,7 +494,9 @@ exports.pump = function(readStream, writeStream, callback) {
 		readStream.destroy();
 		call(err);
 	});
-};
+}
+exports.pump = exports.deprecate(pump,
+    'util.pump() is deprecated. Use ReadableStream.prototype.pump() instead.');
 
 
 /**
@@ -490,7 +526,7 @@ exports.inherits = function(ctor, superCtor) {
 
 exports._extend = function(origin, add) {
 	// Don't do anything if add isn't an object
-	if (!add) return origin;
+  if (!add || typeof add !== 'object') return origin;
 
 	var keys = Object.keys(add);
 	var i = keys.length;
@@ -499,3 +535,7 @@ exports._extend = function(origin, add) {
 	}
 	return origin;
 };
+
+function hasOwnProperty(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}

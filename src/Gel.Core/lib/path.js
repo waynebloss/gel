@@ -1,7 +1,8 @@
 ﻿// COPYRIGHT AND (MIT) LICENSE APPLY. SEE FILE: ../lic/node.txt
 
+
 var isWindows = process.platform === 'win32';
-//var _deprecationWarning = require('util')._deprecationWarning; // unused.
+var util = require('util');
 
 
 // resolves . and .. elements in a path array with directory names there
@@ -13,7 +14,7 @@ function normalizeArray(parts, allowAboveRoot) {
   var up = 0;
   for (var i = parts.length - 1; i >= 0; i--) {
     var last = parts[i];
-    if (last == '.') {
+    if (last === '.') {
       parts.splice(i, 1);
     } else if (last === '..') {
       parts.splice(i, 1);
@@ -81,7 +82,7 @@ if (isWindows) {
         path = process.env['=' + resolvedDevice];
         // Verify that a drive-local cwd was found and that it actually points
         // to our drive. If not, default to the drive's root.
-        if (!path || path.slice(0, 3).toLowerCase() !==
+        if (!path || path.substr(0, 3).toLowerCase() !==
             resolvedDevice.toLowerCase() + '\\') {
           path = resolvedDevice + '\\';
         }
@@ -159,6 +160,9 @@ if (isWindows) {
       tail += '\\';
     }
 
+    // Convert slashes to backslashes when `device` points to an UNC root.
+    device = device.replace(/\//g, '\\');
+
     return device + (isAbsolute ? '\\' : '') + tail;
   };
 
@@ -168,14 +172,14 @@ if (isWindows) {
       return p && typeof p === 'string';
     }
 
-    var paths = Array.prototype.slice.call(arguments, 0).filter(f);
+    var paths = Array.prototype.filter.call(arguments, f);
     var joined = paths.join('\\');
 
     // Make sure that the joined path doesn't start with two slashes
     // - it will be mistaken for an unc path by normalize() -
     // unless the paths[0] also starts with two slashes
     if (/^[\\\/]{2}/.test(joined) && !/^[\\\/]{2}/.test(paths[0])) {
-      joined = joined.slice(1);
+      joined = joined.substr(1);
     }
 
     return exports.normalize(joined);
@@ -238,6 +242,7 @@ if (isWindows) {
     return outputParts.join('\\');
   };
 
+  exports.sep = '\\';
 
 } else /* posix */ {
 
@@ -283,7 +288,7 @@ if (isWindows) {
   // posix version
   exports.normalize = function(path) {
     var isAbsolute = path.charAt(0) === '/',
-        trailingSlash = path.slice(-1) === '/';
+        trailingSlash = path.substr(-1) === '/';
 
     // Normalize the path
     path = normalizeArray(path.split('/').filter(function(p) {
@@ -353,6 +358,7 @@ if (isWindows) {
     return outputParts.join('/');
   };
 
+  exports.sep = '/';
 }
 
 
@@ -368,7 +374,7 @@ exports.dirname = function(path) {
 
   if (dir) {
     // It has a dirname, strip trailing slash
-    dir = dir.substring(0, dir.length - 1);
+    dir = dir.substr(0, dir.length - 1);
   }
 
   return root + dir;
@@ -390,16 +396,14 @@ exports.extname = function(path) {
 };
 
 
-exports.exists = function(path, callback) {
+exports.exists = util.deprecate(function(path, callback) {
   require('fs').exists(path, callback);
-};
-module.deprecate('exists', 'It is now called `fs.exists`.');
+}, 'path.exists is now called `fs.exists`.');
 
 
-exports.existsSync = function(path) {
+exports.existsSync = util.deprecate(function(path) {
   return require('fs').existsSync(path);
-};
-module.deprecate('existsSync', 'It is now called `fs.existsSync`.');
+}, 'path.existsSync is now called `fs.existsSync`.');
 
 
 if (isWindows) {
@@ -411,11 +415,11 @@ if (isWindows) {
 
     var resolvedPath = exports.resolve(path);
 
-    if (resolvedPath.match(/^[a-zA-Z]\:\\/)) {
+    if (/^[a-zA-Z]\:\\/.test(resolvedPath)) {
       // path is local filesystem path, which needs to be converted
       // to long UNC path.
       return '\\\\?\\' + resolvedPath;
-    } else if (resolvedPath.match(/^\\\\[^?.]/)) {
+    } else if (/^\\\\[^?.]/.test(resolvedPath)) {
       // path is network UNC path, which needs to be converted
       // to long UNC path.
       return '\\\\?\\UNC\\' + resolvedPath.substring(2);

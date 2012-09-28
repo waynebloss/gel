@@ -31,6 +31,8 @@ assert.AssertionError = function AssertionError(options) {
     Error.captureStackTrace(this, stackStartFunction);
   }
 };
+
+// assert.AssertionError instanceof Error
 util.inherits(assert.AssertionError, Error);
 
 function replacer(key, value) {
@@ -67,10 +69,6 @@ assert.AssertionError.prototype.toString = function() {
   }
 };
 
-// assert.AssertionError instanceof Error
-
-assert.AssertionError.__proto__ = Error.prototype;
-
 // At present only the three keys mentioned above are used and
 // understood by the spec. Implementations or sub modules can pass
 // other keys to the AssertionError's constructor - they will be
@@ -98,7 +96,7 @@ assert.fail = fail;
 // 4. Pure assertion tests whether a value is truthy, as determined
 // by !!guard.
 // assert.ok(guard, message_opt);
-// This statement is equivalent to assert.equal(true, guard,
+// This statement is equivalent to assert.equal(true, !!guard,
 // message_opt);. To test strictly for the value true, use
 // assert.strictEqual(true, guard, message_opt);.
 
@@ -141,12 +139,12 @@ function _deepEqual(actual, expected) {
 	// TODO: restore the following 6 code lines when Buffer is implemented.
 //  } else if (Buffer.isBuffer(actual) && Buffer.isBuffer(expected)) {
 //    if (actual.length != expected.length) return false;
-
+//
 //    for (var i = 0; i < actual.length; i++) {
 //      if (actual[i] !== expected[i]) return false;
 //    }
 
-//    return true;
+    return true;
 
   // 7.2. If the expected value is a Date object, the actual value is
   // equivalent if it is also a Date object that refers to the same time.
@@ -291,11 +289,11 @@ function _throws(shouldThrow, block, expected, message) {
             (message ? ' ' + message : '.');
 
   if (shouldThrow && !actual) {
-    fail('Missing expected exception' + message);
+    fail(actual, expected, 'Missing expected exception' + message);
   }
 
   if (!shouldThrow && expectedException(actual, expected)) {
-    fail('Got unwanted exception' + message);
+    fail(actual, expected, 'Got unwanted exception' + message);
   }
 
   if ((shouldThrow && actual && expected &&
@@ -312,7 +310,7 @@ assert.throws = function(block, /*optional*/error, /*optional*/message) {
 };
 
 // EXTENSION! This is annoying to write outside this module.
-assert.doesNotThrow = function(block, /*optional*/error, /*optional*/message) {
+assert.doesNotThrow = function(block, /*optional*/message) {
   _throws.apply(this, [false].concat(pSlice.call(arguments)));
 };
 

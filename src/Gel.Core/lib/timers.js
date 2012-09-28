@@ -4,6 +4,9 @@ var Timer = process.binding('timer_wrap').Timer;
 var L = require('_linklist');
 var assert = require('assert').ok;
 
+// Timeout values > TIMEOUT_MAX are set to 1.
+var TIMEOUT_MAX = 2147483647; // 2^31-1
+
 var debug;
 if (process.env.NODE_DEBUG && /timer/.test(process.env.NODE_DEBUG)) {
   debug = function() { require('util').error.apply(this, arguments); };
@@ -29,7 +32,7 @@ var lists = {};
 // the main function - creates lists on demand and the watchers associated
 // with them.
 function insert(item, msecs) {
-  item._idleStart = new Date();
+  item._idleStart = Date.now();
   item._idleTimeout = msecs;
 
   if (msecs < 0) return;
@@ -49,8 +52,8 @@ function insert(item, msecs) {
     list.ontimeout = function() {
       debug('timeout callback ' + msecs);
 
-      var now = new Date();
-      debug('now: ' + now);
+      var now = Date.now();
+      debug('now: ' + (new Date(now)));
 
       var first;
       while (first = L.peek(list)) {
@@ -128,7 +131,7 @@ exports.active = function(item) {
     if (!list || L.isEmpty(list)) {
       insert(item, msecs);
     } else {
-      item._idleStart = new Date();
+      item._idleStart = Date.now();
       L.append(list, item);
     }
   }
@@ -143,34 +146,26 @@ exports.active = function(item) {
 exports.setTimeout = function(callback, after) {
   var timer;
 
-  if (after <= 0) {
-    // Use the slow case for after == 0
-    timer = new Timer();
-    timer._callback = callback;
+  after *= 1; // coalesce to number or NaN
 
-    if (arguments.length <= 2) {
-      timer._onTimeout = function() {
-        this._callback();
-        this.close();
+  if (!(after >= 1 && after <= TIMEOUT_MAX)) {
+    after = 1; // schedule on next tick, follows browser behaviour
       }
-    } else {
-      var args = Array.prototype.slice.call(arguments, 2);
-      timer._onTimeout = function() {
-        this._callback.apply(timer, args);
-        this.close();
-      }
-    }
 
-    timer.ontimeout = timer._onTimeout;
-    timer.start(0, 0);
-  } else {
-    timer = { _idleTimeout: after };
-    timer._idlePrev = timer;
-    timer._idleNext = timer;
+  timer = new Timeout(after);
 
     if (arguments.length <= 2) {
       timer._onTimeout = callback;
     } else {
+    /*
+     * Sometimes setTimeout is called with arguments, EG
+     *
+     *   setTimeout(callback, 2000, "hello", "world")
+     *
+     * If that's the case we need to call the callback with
+     * those args. The overhead of an extra closure is not
+     * desired in the normal case.
+     */
       var args = Array.prototype.slice.call(arguments, 2);
       timer._onTimeout = function() {
         callback.apply(timer, args);
@@ -178,7 +173,6 @@ exports.setTimeout = function(callback, after) {
     }
 
     exports.active(timer);
-  }
 
   return timer;
 };
@@ -187,7 +181,7 @@ exports.setTimeout = function(callback, after) {
 exports.clearTimeout = function(timer) {
   if (timer && (timer.ontimeout || timer._onTimeout)) {
     timer.ontimeout = timer._onTimeout = null;
-    if (timer instanceof Timer) {
+    if (timer instanceof Timer || timer instanceof Timeout) {
       timer.close(); // for after === 0
     } else {
       exports.unenroll(timer);
@@ -199,12 +193,19 @@ exports.clearTimeout = function(timer) {
 exports.setInterval = function(callback, repeat) {
   var timer = new Timer();
 
+
+  repeat *= 1; // coalesce to number or NaN
+
+  if (!(repeat >= 1 && repeat <= TIMEOUT_MAX)) {
+    repeat = 1; // schedule on next tick, follows browser behaviour
+  }
+
   var args = Array.prototype.slice.call(arguments, 2);
   timer.ontimeout = function() {
     callback.apply(timer, args);
   }
 
-  timer.start(repeat, repeat ? repeat : 1);
+  timer.start(repeat, repeat);
   return timer;
 };
 
@@ -213,5 +214,108 @@ exports.clearInterval = function(timer) {
   if (timer instanceof Timer) {
     timer.ontimeout = null;
     timer.close();
+  }
+};
+var Timeout = function(after) {
+  this._idleTimeout = after;
+  this._idlePrev = this;
+  this._idleNext = this;
+  this._when = Date.now() + after;
+};
+
+Timeout.prototype.unref = function() {
+  if (!this._handle) {
+    var delay = this._when - Date.now();
+    if (delay < 0) delay = 0;
+    exports.unenroll(this);
+    this._handle = new Timer();
+    this._handle.ontimeout = this._onTimeout;
+    this._handle.start(delay, 0);
+
+    this._handle.unref();
+  } else {
+    this._handle.unref();
+  }
+};
+Timeout.prototype.ref = function() {
+  if (this._handle)
+    this._handle.ref();
+};
+
+Timeout.prototype.close = function() {
+  this._onTimeout = null;
+  if (this._handle) {
+    this._handle.ontimeout = null;
+    this._handle.close();
+  } else {
+    exports.unenroll(this);
+  }
+};
+
+
+var immediateTimer = null;
+var immediateQueue = { started: false };
+L.init(immediateQueue);
+
+
+function lazyImmediateInit() { // what's in a name?
+  if (immediateTimer) return;
+  immediateTimer = new Timer;
+  immediateTimer.ontimeout = processImmediate;
+}
+
+
+function processImmediate() {
+  var immediate;
+  if (L.isEmpty(immediateQueue)) {
+    immediateTimer.stop();
+    immediateQueue.started = false;
+  } else {
+    immediate = L.shift(immediateQueue);
+
+
+    immediate._onTimeout();
+
+  }
+}
+
+
+exports.setImmediate = function(callback) {
+  var immediate = {}, args;
+
+  L.init(immediate);
+
+  immediate._onTimeout = callback;
+
+  if (arguments.length > 1) {
+    args = Array.prototype.slice.call(arguments, 1);
+    immediate._onTimeout = function() {
+      callback.apply(null, args);
+    };
+  }
+
+  if (!immediateQueue.started) {
+    lazyImmediateInit();
+    immediateTimer.start(0, 1);
+    immediateQueue.started = true;
+  }
+
+
+  L.append(immediateQueue, immediate);
+
+  return immediate;
+};
+
+
+exports.clearImmediate = function(immediate) {
+  if (!immediate) return;
+
+  immediate._onTimeout = undefined;
+
+  L.remove(immediate);
+
+  if (L.isEmpty(immediateQueue)) {
+    immediateTimer.stop();
+    immediateQueue.started = false;
   }
 };
