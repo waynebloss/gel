@@ -111,13 +111,9 @@
     <EmbeddedResource Include="lib\querystring.js" />
     <EmbeddedResource Include="lib\url.js" />
     <EmbeddedResource Include="lib\vm.js" />
-    <None Include="lic\narwhal.txt" />
-    <None Include="lic\node.txt" />
     <EmbeddedResource Include="timer_wrap.js" />
     <EmbeddedResource Include="os.js" />
-    <None Include="lic\Fair_Oaks_Labs.txt" />
     <EmbeddedResource Include="lib\fs.js" />
-    <None Include="lic\gel.txt" />
     <Content Include="ref\process.js" />
     <EmbeddedResource Include="console.js" />
     <Content Include="ref\external.js" />
