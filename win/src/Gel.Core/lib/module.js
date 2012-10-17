@@ -278,7 +278,7 @@ Module._load = function(request, parent, isMain) {
   }
 
   var filename = Module._resolveFilename(request, parent);
-  
+
   var cachedModule = Module._cache[filename];
   if (cachedModule) {
     return cachedModule.exports;
@@ -477,7 +477,7 @@ Module._extensions['.js'] = function(module, filename) {
 Module._extensions['.json'] = function(module, filename) {
   var content = NativeModule.require('fs').readFileSync(filename, 'utf8');
   try {
-  module.exports = JSON.parse(stripBOM(content));
+    module.exports = JSON.parse(stripBOM(content));
   } catch (err) {
     err.message = filename + ': ' + err.message;
     throw err;

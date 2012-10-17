@@ -47,7 +47,6 @@ if (process.env.NODE_DEBUG && /timer/.test(process.env.NODE_DEBUG)) {
 // value = list
 var lists = {};
 
-
 // the main function - creates lists on demand and the watchers associated
 // with them.
 function insert(item, msecs) {
@@ -146,6 +145,7 @@ exports.enroll = function(item, msecs) {
 exports.active = function(item) {
   var msecs = item._idleTimeout;
   if (msecs >= 0) {
+
     var list = lists[msecs];
     if (!list || L.isEmpty(list)) {
       insert(item, msecs);
@@ -169,13 +169,13 @@ exports.setTimeout = function(callback, after) {
 
   if (!(after >= 1 && after <= TIMEOUT_MAX)) {
     after = 1; // schedule on next tick, follows browser behaviour
-      }
+  }
 
   timer = new Timeout(after);
 
-    if (arguments.length <= 2) {
-      timer._onTimeout = callback;
-    } else {
+  if (arguments.length <= 2) {
+    timer._onTimeout = callback;
+  } else {
     /*
      * Sometimes setTimeout is called with arguments, EG
      *
@@ -185,13 +185,14 @@ exports.setTimeout = function(callback, after) {
      * those args. The overhead of an extra closure is not
      * desired in the normal case.
      */
-      var args = Array.prototype.slice.call(arguments, 2);
-      timer._onTimeout = function() {
-        callback.apply(timer, args);
-      }
+    var args = Array.prototype.slice.call(arguments, 2);
+    timer._onTimeout = function() {
+      callback.apply(timer, args);
     }
+  }
 
-    exports.active(timer);
+
+  exports.active(timer);
 
   return timer;
 };
@@ -235,6 +236,7 @@ exports.clearInterval = function(timer) {
     timer.close();
   }
 };
+
 var Timeout = function(after) {
   this._idleTimeout = after;
   this._idlePrev = this;
@@ -256,6 +258,7 @@ Timeout.prototype.unref = function() {
     this._handle.unref();
   }
 };
+
 Timeout.prototype.ref = function() {
   if (this._handle)
     this._handle.ref();
