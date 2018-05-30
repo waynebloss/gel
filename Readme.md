@@ -6,7 +6,7 @@
 
 *Currently only an early, alpha grade, Windows protoype built with .NET 3.5 and WinForms exists.*
 
-See [win/Readme.md](gel/tree/develop/win/Readme.md) for notes on running the prototype.
+See [win/Readme.md](win/Readme.md) for notes on running the prototype.
 
 ## Introduction
 
